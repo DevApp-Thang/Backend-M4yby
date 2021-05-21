@@ -1,8 +1,11 @@
 const { Op } = require("sequelize");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 const ErrorResponse = require("../helpers/ErrorResponse");
 const asyncHandle = require("../middlewares/asyncHandle");
 const { Account } = require("../models");
+const { getResetPasswordToken } = require("../helpers/resetPassword");
+const sendEmail = require("../helpers/sendMail");
 const refreshTokens = {};
 
 const sendTokenResponse = (account, statusCode, res) => {
@@ -161,5 +164,96 @@ module.exports = {
     res.status(200).json({
       success: true,
     });
+  }),
+  resetPassword: asyncHandle(async (req, res, next) => {
+    const { resetToken } = req.params;
+    const { password } = req.body;
+
+    if (!resetToken) {
+      return next(new ErrorResponse(`ResetToken is invalid.`, 400));
+    }
+
+    if (!password) {
+      return next(new ErrorResponse(`Password is invalid.`, 400));
+    }
+
+    const resetPasswordToken = crypto
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex");
+
+    const user = await Account.findOne({
+      where: {
+        resetPasswordToken,
+        resetPasswordExpire: {
+          [Op.gt]: Date.now(),
+        },
+      },
+    });
+
+    if (!user) {
+      return next(new ErrorResponse(`Wrong ResetToken.`, 400));
+    }
+
+    const newUser = await user.update({
+      password,
+      resetPasswordToken: null,
+      resetPasswordExpire: null,
+    });
+
+    sendTokenResponse(newUser, 200, res);
+  }),
+  forgotPassword: asyncHandle(async (req, res, next) => {
+    const { email } = req.body;
+
+    if (!email) {
+      return next(new ErrorResponse("Email is invalid", 400));
+    }
+
+    const user = await Account.findOne({
+      where: {
+        email,
+      },
+    });
+
+    if (!user) {
+      return next(
+        new ErrorResponse(`There is no account with email ${email}`, 400)
+      );
+    }
+
+    const { resetToken, resetPasswordExpire, resetPasswordToken } =
+      getResetPasswordToken();
+
+    await user.update({
+      resetPasswordToken,
+      resetPasswordExpire,
+    });
+
+    const resetUrl = `${req.protocol}://${req.get(
+      "host"
+    )}/api/resetPassword/${resetToken}`;
+    const message = `Click to ${resetUrl} to reset password`;
+
+    try {
+      await sendMail({
+        email: email,
+        subejct: "Reset password",
+        message,
+      });
+
+      res.status(200).json({
+        success: true,
+        data: "Email sent",
+      });
+    } catch (err) {
+      console.log(err.message);
+
+      await user.update({
+        resetPasswordExpire: null,
+        resetPasswordToken: null,
+      });
+      return next(new ErrorResponse(`Email coult not be sent`, 500));
+    }
   }),
 };
