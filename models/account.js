@@ -1,7 +1,37 @@
 "use strict";
 const { Model } = require("sequelize");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const PROTECTED_ATTRIBUTES = ["password"];
+
 module.exports = (sequelize, DataTypes) => {
   class Account extends Model {
+    toJSON() {
+      // hide protected fields
+      const attributes = { ...this.get() };
+      // eslint-disable-next-line no-restricted-syntax
+      for (const value of PROTECTED_ATTRIBUTES) {
+        delete attributes[value];
+      }
+      return attributes;
+    }
+
+    async matchPassword(enteredPassword) {
+      return await bcrypt.compare(enteredPassword, this.password);
+    }
+
+    getSignedJwtToken() {
+      return jwt.sign({ id: this.id }, process.env.SECRET_TOKEN, {
+        expiresIn: process.env.TOKEN_EXPIRE,
+      });
+    }
+
+    getSignedJwtRefreshToken() {
+      return jwt.sign({ id: this.id }, process.env.SECRET_REFRESH_TOKEN, {
+        expiresIn: process.env.REFRESH_TOKEN_EXPIRE,
+      });
+    }
+
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -38,6 +68,7 @@ module.exports = (sequelize, DataTypes) => {
       phone: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
         validate: {
           notNull: {
             msg: "Please enter your phone.",
@@ -52,6 +83,7 @@ module.exports = (sequelize, DataTypes) => {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
         validate: {
           notNull: {
             msg: "Please enter your email.",
@@ -105,6 +137,12 @@ module.exports = (sequelize, DataTypes) => {
       resetPasswordExpire: DataTypes.DATE,
     },
     {
+      hooks: {
+        beforeCreate: async (account, options) => {
+          const salt = await bcrypt.genSalt(10);
+          account.password = await bcrypt.hash(account.password, salt);
+        },
+      },
       sequelize,
       modelName: "Account",
     }
