@@ -110,4 +110,56 @@ module.exports = {
       });
     }
   }),
+  getMe: asyncHandle(async (req, res, next) => {
+    res.status(200).json({
+      success: true,
+      data: req.user,
+    });
+  }),
+  updateDetails: asyncHandle(async (req, res) => {
+    const fieldsToUpdate = {
+      name: req.body.name,
+      email: req.body.email,
+      phone: req.body.phone,
+      address: req.body.address,
+      gender: req.body.gender,
+    };
+
+    const currentUser = await Account.findByPk(req.user.id);
+
+    const user = await currentUser.update(fieldsToUpdate);
+
+    res.status(200).json({
+      success: true,
+      data: user,
+    });
+  }),
+  updatePassword: asyncHandle(async (req, res, next) => {
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword) {
+      return next(new ErrorResponse("Please enter your password.", 301));
+    }
+
+    if (!newPassword) {
+      return next(new ErrorResponse("Please enter new password", 301));
+    }
+
+    const currentUser = await Account.findByPk(req.user.id);
+
+    const isMatch = await currentUser.matchPassword(currentPassword);
+
+    if (!isMatch) {
+      return next(new ErrorResponse(`Wrong password`, 401));
+    }
+
+    const user = await currentUser.update({
+      password: newPassword,
+    });
+
+    // sendTokenResponse(user, 200, res);
+    res.status(200).json({
+      success: true,
+    });
+  }),
 };

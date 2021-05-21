@@ -6,6 +6,18 @@
 - Yarn v1.x
 - MySQL
 
+### Enviroment
+
+- Create file /config/.env with content:
+
+```sh
+PORT =
+SECRET_TOKEN =
+TOKEN_EXPIRE =
+SECRET_REFRESH_TOKEN =
+REFRESH_TOKEN_EXPIRE =
+```
+
 ### Installation
 
 ```sh
@@ -21,6 +33,12 @@ $ create database db_m4yby
 ```
 
 - Step 2:
+
+```sh
+Change user and password database in /config/config.json
+```
+
+- Step 3:
 
 ```sh
 $ sequelize db:migrate

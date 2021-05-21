@@ -142,6 +142,10 @@ module.exports = (sequelize, DataTypes) => {
           const salt = await bcrypt.genSalt(10);
           account.password = await bcrypt.hash(account.password, salt);
         },
+        beforeUpdate: async (account, options) => {
+          const salt = await bcrypt.genSalt(10);
+          account.password = await bcrypt.hash(account.password, salt);
+        },
       },
       sequelize,
       modelName: "Account",
