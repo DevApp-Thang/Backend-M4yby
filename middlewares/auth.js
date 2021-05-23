@@ -19,7 +19,13 @@ exports.protect = asyncHandle(async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.SECRET_TOKEN);
 
-    req.user = await Account.findByPk(decoded.id);
+    const user = await Account.findByPk(decoded.id);
+
+    if (!user) {
+      return next(new ErrorResponse(`Not authorize to access this route`, 401));
+    }
+
+    req.user = user;
 
     next();
   } catch (err) {
