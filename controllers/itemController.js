@@ -1,5 +1,7 @@
 const crypto = require("crypto");
 const path = require("path");
+const fs = require("fs/promises");
+const fss = require("fs");
 const asyncHandle = require("../middlewares/asyncHandle");
 const { Item, Location, ItemImage, sequelize } = require("../models");
 const ErrorResponse = require("../helpers/ErrorResponse");
@@ -64,9 +66,7 @@ module.exports = {
           //   continue;
           // }
 
-          file.name = `${AccountId}${item.name}${file.name}${index}${
-            path.parse(file.name).ext
-          }`;
+          file.name = `${AccountId}${code}${index}${path.parse(file.name).ext}`;
 
           file.mv(`${process.env.FOLDER_DEFAULT}/${file.name}`, async (err) => {
             if (err) {
@@ -112,8 +112,6 @@ module.exports = {
     const AccountId = req.user.id;
     const { itemID } = req.params;
 
-    let code;
-
     const item = await Item.findByPk(itemID);
 
     if (!item) {
@@ -126,7 +124,7 @@ module.exports = {
       return next(new ErrorResponse(`You do not have access.`, 401));
     }
 
-    const { LocationId, id } = item;
+    const { LocationId, id, code } = item;
 
     try {
       const location = await Location.findByPk(LocationId);
@@ -146,9 +144,7 @@ module.exports = {
           //   continue;
           // }
 
-          file.name = `${AccountId}${item.name}${file.name}${index}${
-            path.parse(file.name).ext
-          }`;
+          file.name = `${AccountId}${code}${index}${path.parse(file.name).ext}`;
 
           file.mv(`${process.env.FOLDER_DEFAULT}/${file.name}`, async (err) => {
             if (err) {
@@ -219,7 +215,7 @@ module.exports = {
           new ErrorResponse(`Cannot find item with ID ${itemID}.`, 404)
         );
       }
-      const { LocationId, id, AccountId } = item;
+      const { LocationId, id, AccountId, code } = item;
 
       if (AccountId !== req.user.id) {
         return next(new ErrorResponse(`You do not have access.`, 401));
@@ -242,6 +238,13 @@ module.exports = {
           const image = itemImages[index];
 
           await image.destroy({ transaction });
+
+          const listImage = await fs.readdir("public/images");
+          for (const file of listImage) {
+            if (file.indexOf(code)) {
+              await fs.unlink(`public/images/${file}`);
+            }
+          }
         }
       }
 
