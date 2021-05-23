@@ -18,6 +18,11 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "cascade",
       });
 
+      this.belongsTo(models.Account, {
+        foreignKey: "AccountId",
+        onDelete: "cascade",
+      });
+
       this.hasMany(models.ItemImage, {
         foreignKey: "ItemId",
         as: "itemimages",

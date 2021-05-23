@@ -54,6 +54,15 @@ module.exports = {
           as: "ProductId",
         },
       },
+      AccountId: {
+        type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
+        references: {
+          model: "Accounts",
+          key: "id",
+          as: "Accounts",
+        },
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
