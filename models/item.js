@@ -9,22 +9,22 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.Product, {
-        foreignKey: "productID",
+        foreignKey: "ProductId",
         onDelete: "cascade",
       });
 
       this.belongsTo(models.Location, {
-        foreignKey: "locationID",
+        foreignKey: "LocationId",
         onDelete: "cascade",
       });
 
-      this.hasMany(models.Item_image, {
-        foreignKey: "ItemID",
-        as: "item_images",
+      this.hasMany(models.ItemImage, {
+        foreignKey: "ItemId",
+        as: "itemimages",
       });
 
       this.hasMany(models.Favorite, {
-        foreignKey: "ItemID",
+        foreignKey: "ItemId",
         as: "favorites",
       });
     }

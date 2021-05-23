@@ -20,13 +20,13 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      subCategoryID: {
+      SubcategoryId: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
         references: {
-          model: "Sub_categories",
+          model: "SubCategories",
           key: "id",
-          as: "subCategoryID",
+          as: "SubcategoryId",
         },
       },
     });

@@ -114,9 +114,11 @@ module.exports = {
     }
   }),
   getMe: asyncHandle(async (req, res, next) => {
+    const user = await Account.findByPk(req.user.id);
+
     res.status(200).json({
       success: true,
-      data: req.user,
+      data: user,
     });
   }),
   updateDetails: asyncHandle(async (req, res) => {
@@ -236,7 +238,7 @@ module.exports = {
     const message = `Click to ${resetUrl} to reset password`;
 
     try {
-      await sendMail({
+      await sendEmail({
         email: email,
         subejct: "Reset password",
         message,

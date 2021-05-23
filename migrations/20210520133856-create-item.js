@@ -36,22 +36,22 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      locationID: {
+      LocationId: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
         references: {
           model: "Locations",
           key: "id",
-          as: "locationID",
+          as: "LocationId",
         },
       },
-      productID: {
+      ProductId: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
         references: {
           model: "products",
           key: "id",
-          as: "productID",
+          as: "ProductId",
         },
       },
     });

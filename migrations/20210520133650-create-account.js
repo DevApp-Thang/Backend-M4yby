@@ -14,7 +14,6 @@ module.exports = {
       },
       phone: {
         type: Sequelize.STRING,
-        allowNull: false,
         unique: true,
       },
       address: {
@@ -52,13 +51,13 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      vipID: {
+      VipId: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
         references: {
           model: "Vips",
           key: "id",
-          as: "vipID",
+          as: "VipId",
         },
       },
     });

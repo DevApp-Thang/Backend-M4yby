@@ -39,17 +39,20 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.hasMany(models.Vote, {
-        foreignKey: "accountID",
+        foreignKey: "AccountId",
         as: "votes",
       });
 
       this.belongsTo(models.Vip, {
-        foreignKey: "vipID",
+        foreignKey: {
+          defaultValue: 1,
+          field: "VipId",
+        },
         onDelete: "cascade",
       });
 
       this.hasMany(models.Favorite, {
-        foreignKey: "accountID",
+        foreignKey: "AccountId",
         as: "favorites",
       });
     }
@@ -67,12 +70,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       phone: {
         type: DataTypes.STRING,
-        allowNull: false,
         unique: true,
         validate: {
-          notNull: {
-            msg: "Please enter your phone.",
-          },
           len: {
             args: [10, 11],
             msg: "Enter wrong length of phone.",
