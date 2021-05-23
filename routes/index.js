@@ -1,7 +1,8 @@
 const errorHandle = require("../middlewares/errorHandle");
 const authRouter = require("./authRouter");
+const itemRouter = require("./itemRouter");
 
-const routers = [authRouter];
+const routers = [authRouter, itemRouter];
 
 module.exports = (app) => {
   // define router

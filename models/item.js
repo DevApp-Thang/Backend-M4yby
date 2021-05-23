@@ -70,9 +70,8 @@ module.exports = (sequelize, DataTypes) => {
           notNull: {
             msg: "Please enter item price.",
           },
-          min: {
-            args: 0,
-            msg: "Please enter item price > 0.",
+          isInt: {
+            msg: "Please enter the number of price.",
           },
         },
       },

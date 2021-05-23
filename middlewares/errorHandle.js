@@ -4,7 +4,7 @@ const errorHandle = (err, req, res, next) => {
   let error = { ...err };
 
   error.message = err.message;
-  console.log(err.stack);
+  console.log("Error hehe:", err);
 
   if (err.name === "SequelizeValidationError") {
     const message = Object.values(err.errors).map((value) => value.message);

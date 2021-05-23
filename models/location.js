@@ -16,8 +16,24 @@ module.exports = (sequelize, DataTypes) => {
   }
   Location.init(
     {
-      long: DataTypes.FLOAT,
-      lat: DataTypes.FLOAT,
+      long: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        validate: {
+          isNumeric: {
+            msg: "Please enter a number for long.",
+          },
+        },
+      },
+      lat: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        validate: {
+          isNumeric: {
+            msg: "Please enter a number for lat.",
+          },
+        },
+      },
     },
     {
       sequelize,
