@@ -1,7 +1,7 @@
 const crypto = require("crypto");
 const path = require("path");
 const fs = require("fs/promises");
-const fss = require("fs");
+const { Op } = require("sequelize");
 const asyncHandle = require("../middlewares/asyncHandle");
 const { Item, Location, ItemImage, sequelize } = require("../models");
 const ErrorResponse = require("../helpers/ErrorResponse");
@@ -108,7 +108,7 @@ module.exports = {
     const transaction = await sequelize.transaction();
 
     const { images } = req.files;
-    const { lng, lat, name, description, price, ProductId } = req.body;
+    const { lng, lat, name, description, price, ProductId, isSold } = req.body;
     const AccountId = req.user.id;
     const { itemID } = req.params;
 
@@ -181,16 +181,32 @@ module.exports = {
         await ItemImage.bulkCreate(fileSuccess, { transaction });
       }
 
-      await item.update(
-        {
-          name,
-          description,
-          price,
-        },
-        {
-          transaction,
-        }
-      );
+      if (isSold !== undefined) {
+        await item.update(
+          {
+            name,
+            description,
+            price,
+            ProductId,
+            isSold,
+          },
+          {
+            transaction,
+          }
+        );
+      } else {
+        await item.update(
+          {
+            name,
+            description,
+            price,
+            ProductId,
+          },
+          {
+            transaction,
+          }
+        );
+      }
 
       await transaction.commit();
 
@@ -261,21 +277,110 @@ module.exports = {
     }
   }),
   searchItem: asyncHandle(async (req, res, next) => {
-    const { lng, lat, distance } = req.query;
+    const {
+      lng,
+      lat,
+      distance,
+      ProductId,
+      priceFrom,
+      priceTo,
+      name,
+      timeFrom,
+      timeTo,
+    } = req.query;
+    let { page } = req.query;
+    let query = {};
 
-    const location = await Location.findAll({
-      where: sequelize.where(
-        sequelize.literal(
-          `6371 * acos(cos(radians(${lat})) * cos(radians(lat)) * cos(radians(${lng}) - radians(lng)) + sin(radians(${lat})) * sin(radians(lat)))`
+    let location;
+
+    if (lng && lat) {
+      location = await Location.findAll({
+        attributes: ["id"],
+        where: sequelize.where(
+          sequelize.literal(
+            `6371 * acos(cos(radians(${lat})) * cos(radians(lat)) * cos(radians(${lng}) - radians(lng)) + sin(radians(${lat})) * sin(radians(lat)))`
+          ),
+          "<=",
+          distance
         ),
-        "<=",
-        distance
-      ),
+      });
+    }
+
+    if (location) {
+      const lctID = location.map((lct) => lct.id);
+      query = {
+        ...query,
+        LocationId: {
+          [Op.in]: lctID,
+        },
+      };
+    }
+
+    if (ProductId) {
+      query = {
+        ...query,
+        ProductId,
+      };
+    }
+
+    if (priceFrom) {
+      query = {
+        ...query,
+        price: {
+          [Op.gte]: priceFrom,
+        },
+      };
+    }
+
+    if (priceTo) {
+      query = {
+        ...query,
+        price: {
+          [Op.lte]: priceTo,
+        },
+      };
+    }
+
+    if (timeFrom) {
+      query = {
+        ...query,
+        createdAt: {
+          [Op.gte]: timeFrom + " 00:00:00",
+        },
+      };
+    }
+
+    if (timeTo) {
+      query = {
+        ...query,
+        createdAt: {
+          [Op.lte]: timeTo + " 23:59:59",
+        },
+      };
+    }
+
+    if (name) {
+      query = {
+        ...query,
+        name: {
+          [Op.like]: `%${name}%`,
+        },
+      };
+    }
+
+    if (!page) {
+      page = 0;
+    }
+
+    const items = await Item.findAll({
+      where: query,
+      offset: parseInt(page),
+      limit: 10,
     });
 
     res.status(200).json({
       success: true,
-      data: location,
+      data: items,
     });
   }),
 };

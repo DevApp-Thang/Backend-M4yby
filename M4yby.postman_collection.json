@@ -1,0 +1,542 @@
+{
+	"info": {
+		"_postman_id": "7240cd93-1c55-48b0-ac91-754da0e1ee40",
+		"name": "M4yby",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Hoàng Duy Khánh\",\r\n    \"phone\": \"0869246248\",\r\n    \"email\": \"hdkhanhit@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"gender\": \"male\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6969/api/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login local",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"phone\": \"0869246248\",\r\n    \"email\": \"hdkhanhit@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6969/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIxNjE4MjQzLCJleHAiOjE2NTIzNzY2NDN9.G-dYieR_SZngXPqX1WWefsq29p3g2STfiTVvBgFejSM\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6969/api/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"api",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get me",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIxNjY5ODgzLCJleHAiOjE2MjE3NTYyODN9.jWn4ex4M9GdtWJpc4dnv0MVh4VeJTTR7gGB4hHh0xHI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:6969/api/me",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"api",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update current user details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIxNjIxMDgwLCJleHAiOjE2MjE3MDc0ODB9.1utpjlqTRV3V7M0fa7aX0euIUURJ8aDEmNQDHewbT18",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"address\": \"Hải Phòng\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6969/api/me/updateDetails",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"api",
+						"me",
+						"updateDetails"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change password",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIxNjIxOTk5LCJleHAiOjE2MjE3MDgzOTl9.uTMVT5HZCqzsUGDMtBho1NaC4Wotv46Oae6Jg8sEM9w",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"currentPassword\": \"123456\", \"newPassword\": \"12345\" }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6969/api/me/updatePassword",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"api",
+						"me",
+						"updatePassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Forgot password",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"hdkhanhit@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6969/api/forgotPassword",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"api",
+						"forgotPassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reset password",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password\": \"12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6969/api/resetPassword/fca5a61c93792e2f54d55ae129304a890fe08a7d",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"api",
+						"resetPassword",
+						"fca5a61c93792e2f54d55ae129304a890fe08a7d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create item",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIxOTM3ODM3LCJleHAiOjE2MjIwMjQyMzd9.d4kj9Se_nyN_JW3d0lLcobCf1Upqh9OSblgVTv9ILb4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "images",
+							"type": "file",
+							"src": "/C:/Users/DuyKhanh/Pictures/22.png"
+						},
+						{
+							"key": "images",
+							"type": "file",
+							"src": "/C:/Users/DuyKhanh/Pictures/avatarTet2-01.png"
+						},
+						{
+							"key": "lng",
+							"value": "70",
+							"type": "text"
+						},
+						{
+							"key": "lat",
+							"value": "70",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "iphone 5 cũ lắm rồi",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Điện thoại cũ rồi muốn bán đi được không",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "1000000",
+							"type": "text"
+						},
+						{
+							"key": "ProductId",
+							"value": "2",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6969/api/item",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"api",
+						"item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update item",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIxODY2MDc4LCJleHAiOjE2MjE5NTI0Nzh9.kUjTFpKqVT-QNUxANQBIheQ3TF4aL8XN6VsTYkZH2cg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "images",
+							"type": "file",
+							"src": "/C:/Users/DuyKhanh/Pictures/893_day_cho_con_lam_quen_khi_ve_nha_moi.jpg"
+						},
+						{
+							"key": "images",
+							"type": "file",
+							"src": "/C:/Users/DuyKhanh/Pictures/cho-pug-1.png"
+						},
+						{
+							"key": "name",
+							"value": "iphone 6 cũ lắm rồi",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Điện thoại cũ rồi muốn bán đi được không",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "500000",
+							"type": "text"
+						},
+						{
+							"key": "ProductId",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "isSold",
+							"value": "true",
+							"type": "text"
+						},
+						{
+							"key": "long",
+							"value": "70",
+							"type": "text"
+						},
+						{
+							"key": "lat",
+							"value": "70",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6969/api/item/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"api",
+						"item",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete item",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIxODY2MDc4LCJleHAiOjE2MjE5NTI0Nzh9.kUjTFpKqVT-QNUxANQBIheQ3TF4aL8XN6VsTYkZH2cg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:6969/api/item/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"api",
+						"item",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search item",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIxODY2MDc4LCJleHAiOjE2MjE5NTI0Nzh9.kUjTFpKqVT-QNUxANQBIheQ3TF4aL8XN6VsTYkZH2cg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:6969/api/item?timeFrom=2021-05-22&timeTo=2021-05-25",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"api",
+						"item"
+					],
+					"query": [
+						{
+							"key": "lng",
+							"value": "90",
+							"disabled": true
+						},
+						{
+							"key": "lat",
+							"value": "70",
+							"disabled": true
+						},
+						{
+							"key": "distance",
+							"value": "3000",
+							"disabled": true
+						},
+						{
+							"key": "ProductId",
+							"value": "2",
+							"disabled": true
+						},
+						{
+							"key": "priceFrom",
+							"value": "1000001",
+							"disabled": true
+						},
+						{
+							"key": "priceTo",
+							"value": "1000000",
+							"disabled": true
+						},
+						{
+							"key": "name",
+							"value": "cũ",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "timeFrom",
+							"value": "2021-05-22"
+						},
+						{
+							"key": "timeTo",
+							"value": "2021-05-25"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

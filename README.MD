@@ -20,6 +20,7 @@ SMTP_EMAIL =
 SMTP_PASSWORD =
 FROM_NAME =
 FROM_EMAIL =
+FOLDER_DEFAULT = "./public/images"
 ```
 
 ### Installation
@@ -46,6 +47,18 @@ Change user and password database in /config/config.json
 
 ```sh
 $ sequelize db:migrate
+```
+
+- Step 4:
+
+```sh
+$ sequelize db:seed:all
+```
+
+- Step 5:
+
+```sh
+$ create folder "public/images"
 ```
 
 ### Run
