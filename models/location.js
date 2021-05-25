@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Location.init(
     {
-      long: {
+      lng: {
         type: DataTypes.FLOAT,
         allowNull: false,
         validate: {

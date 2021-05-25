@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      long: {
+      lng: {
         type: Sequelize.FLOAT,
         allowNull: false,
       },

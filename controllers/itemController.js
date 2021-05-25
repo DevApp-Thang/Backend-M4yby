@@ -11,7 +11,7 @@ module.exports = {
     const transaction = await sequelize.transaction();
 
     const { images } = req.files;
-    const { long, lat, name, description, price, ProductId } = req.body;
+    const { lng, lat, name, description, price, ProductId } = req.body;
     const AccountId = req.user.id;
 
     let status = false;
@@ -31,7 +31,7 @@ module.exports = {
     try {
       const location = await Location.create(
         {
-          long,
+          lng,
           lat,
         },
         { transaction }
@@ -108,7 +108,7 @@ module.exports = {
     const transaction = await sequelize.transaction();
 
     const { images } = req.files;
-    const { long, lat, name, description, price, ProductId } = req.body;
+    const { lng, lat, name, description, price, ProductId } = req.body;
     const AccountId = req.user.id;
     const { itemID } = req.params;
 
@@ -128,7 +128,7 @@ module.exports = {
 
     try {
       const location = await Location.findByPk(LocationId);
-      await location.update({ long, lat }, { transaction });
+      await location.update({ lng, lat }, { transaction });
 
       const fileSuccess = [];
 
@@ -259,5 +259,23 @@ module.exports = {
       await transaction.rollback();
       return next(new ErrorResponse(err.message, 400));
     }
+  }),
+  searchItem: asyncHandle(async (req, res, next) => {
+    const { lng, lat, distance } = req.query;
+
+    const location = await Location.findAll({
+      where: sequelize.where(
+        sequelize.literal(
+          `6371 * acos(cos(radians(${lat})) * cos(radians(lat)) * cos(radians(${lng}) - radians(lng)) + sin(radians(${lat})) * sin(radians(lat)))`
+        ),
+        "<=",
+        distance
+      ),
+    });
+
+    res.status(200).json({
+      success: true,
+      data: location,
+    });
   }),
 };
