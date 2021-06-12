@@ -2,7 +2,7 @@
   "development": {
     "username": "admin_App",
     "password": "Nikolai19841310",
-    "database": "db-m4yby",
+    "database": "db_m4yby",
     "host": "db-m4yby.cvfbufjz85ky.ap-southeast-1.rds.amazonaws.com",
     "dialect": "mysql"
   },
@@ -16,7 +16,7 @@
   "production": {
     "username": "admin_App",
     "password": "Nikolai19841310",
-    "database": "db-m4yby",
+    "database": "db_m4yby",
     "host": "db-m4yby.cvfbufjz85ky.ap-southeast-1.rds.amazonaws.com",
     "dialect": "mysql"
   }
