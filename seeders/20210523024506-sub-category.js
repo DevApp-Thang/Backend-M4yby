@@ -11,7 +11,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    await queryInterface.bulkInsert("Subcategories", [
+    await queryInterface.bulkInsert("SubCategories", [
       {
         name: "Samsung",
         CategoryId: 3,
