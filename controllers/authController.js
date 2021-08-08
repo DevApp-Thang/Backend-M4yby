@@ -18,7 +18,7 @@ const sendTokenResponse = (account, statusCode, res) => {
   };
   refreshTokens[refreshToken] = response;
 
-  res.status(statusCode).json({
+  return res.status(statusCode).json({
     success: true,
     data: response,
   });
@@ -102,7 +102,7 @@ module.exports = {
       const token = account.getSignedJwtToken();
       refreshTokens[refreshToken].token = token;
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         token,
       });
@@ -116,7 +116,7 @@ module.exports = {
   getMe: asyncHandle(async (req, res, next) => {
     const user = await Account.findByPk(req.user.id);
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       data: user,
     });
@@ -134,7 +134,7 @@ module.exports = {
 
     const user = await currentUser.update(fieldsToUpdate);
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       data: user,
     });
@@ -163,7 +163,7 @@ module.exports = {
     });
 
     // sendTokenResponse(user, 200, res);
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
     });
   }),
@@ -244,7 +244,7 @@ module.exports = {
         message,
       });
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         data: "Email sent",
       });

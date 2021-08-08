@@ -60,6 +60,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "AccountId",
         as: "items",
       });
+
+      this.hasMany(models.SearchHistory, {
+        foreignKey: "AccountId",
+        as: "searchHistories",
+      });
     }
   }
   Account.init(

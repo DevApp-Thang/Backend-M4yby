@@ -1,39 +1,35 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class SubCategory extends Model {
+  class SearchHistory extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsTo(models.Category, {
-        foreignKey: "categoryId",
+      this.belongsTo(models.Account, {
+        foreignKey: "AccountId",
         onDelete: "cascade",
-      });
-      this.hasMany(models.Product, {
-        foreignKey: "SubcategoryId",
-        as: "products",
       });
     }
   }
-  SubCategory.init(
+  SearchHistory.init(
     {
-      name: {
+      keyword: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
           notNull: {
-            msg: "Please enter sub category name.",
+            msg: "Please enter keyword.",
           },
         },
       },
     },
     {
       sequelize,
-      modelName: "SubCategory",
+      modelName: "SearchHistory",
     }
   );
-  return SubCategory;
+  return SearchHistory;
 };

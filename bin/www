@@ -3,9 +3,10 @@
 /**
  * Module dependencies.
  */
-// require("dotenv").config({
-//   path: "config/.env",
-// });
+if (process.env.NODE_ENV === "development")
+  require("dotenv").config({
+    path: "config/.env",
+  });
 const app = require("../app");
 const debug = require("debug")("backend-m4yby:server");
 const http = require("http");

@@ -3,7 +3,15 @@ const path = require("path");
 const fs = require("fs/promises");
 const { Op } = require("sequelize");
 const asyncHandle = require("../middlewares/asyncHandle");
-const { Item, Location, ItemImage, sequelize } = require("../models");
+const {
+  Item,
+  Location,
+  ItemImage,
+  SearchHistory,
+  sequelize,
+  Account,
+  Product,
+} = require("../models");
 const ErrorResponse = require("../helpers/ErrorResponse");
 
 module.exports = {
@@ -94,7 +102,7 @@ module.exports = {
 
       await transaction.commit();
 
-      res.status(201).json({
+      return res.status(201).json({
         success: true,
         data: item,
       });
@@ -105,8 +113,6 @@ module.exports = {
   }),
 
   updateItem: asyncHandle(async (req, res, next) => {
-    const transaction = await sequelize.transaction();
-
     const { images } = req.files;
     const { lng, lat, name, description, price, ProductId, isSold } = req.body;
     const AccountId = req.user.id;
@@ -125,6 +131,8 @@ module.exports = {
     }
 
     const { LocationId, id, code } = item;
+
+    const transaction = await sequelize.transaction();
 
     try {
       const location = await Location.findByPk(LocationId);
@@ -210,7 +218,7 @@ module.exports = {
 
       await transaction.commit();
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         data: item,
       });
@@ -219,6 +227,7 @@ module.exports = {
       return next(new ErrorResponse(err.message, 400));
     }
   }),
+
   deleteItem: asyncHandle(async (req, res, next) => {
     const { itemID } = req.params;
     const transaction = await sequelize.transaction();
@@ -266,7 +275,7 @@ module.exports = {
 
       await transaction.commit();
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         data: {},
       });
@@ -276,6 +285,7 @@ module.exports = {
       return next(new ErrorResponse(err.message, 400));
     }
   }),
+
   searchItem: asyncHandle(async (req, res, next) => {
     const {
       lng,
@@ -287,6 +297,8 @@ module.exports = {
       name,
       timeFrom,
       timeTo,
+      isSold,
+      limit,
     } = req.query;
     let { page } = req.query;
     let query = {};
@@ -359,6 +371,147 @@ module.exports = {
       };
     }
 
+    switch (isSold) {
+      case "true":
+        query = {
+          ...query,
+          isSold: true,
+        };
+        break;
+      case "false":
+        query = {
+          ...query,
+          isSold: false,
+        };
+        break;
+      default:
+        break;
+    }
+
+    if (name) {
+      query = {
+        ...query,
+        name: {
+          [Op.like]: `%${name}%`,
+        },
+      };
+
+      const keyword = await SearchHistory.findOne({
+        where: {
+          keyword: { [Op.like]: `%${name}%` },
+          AccountId: req.user.id,
+        },
+      });
+      if (!keyword) {
+        await SearchHistory.create({
+          keyword: name,
+          AccountId: req.user.id,
+        });
+      }
+    }
+
+    if (!page) {
+      page = 1;
+    }
+
+    const limitPerPage = Number(limit) || 10;
+
+    const items = await Item.findAndCountAll({
+      where: query,
+      include: [
+        {
+          model: ItemImage,
+          as: "itemimages",
+        },
+      ],
+      distinct: true,
+      offset: (Number(page) - 1) * limitPerPage,
+      limit: limitPerPage,
+      order: [["id", "DESC"]],
+    });
+
+    return res.status(200).json({
+      success: true,
+      data: items.rows,
+      pagination: {
+        page: Number(page) || 1,
+        total: items.count,
+      },
+    });
+  }),
+
+  getItemDetail: asyncHandle(async (req, res, next) => {
+    const { itemID } = req.params;
+
+    if (isNaN(Number(itemID))) {
+      return next(new ErrorResponse("Id must be a number", 400));
+    }
+
+    const item = await Item.findOne({
+      where: {
+        id: itemID,
+      },
+      include: [
+        Account,
+        Location,
+        Product,
+        {
+          model: ItemImage,
+          as: "itemimages",
+        },
+      ],
+    });
+
+    if (!item) {
+      return next(new ErrorResponse(`Cannot find item with id ${itemID}`, 404));
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: item,
+    });
+  }),
+
+  updateStatusItem: asyncHandle(async (req, res, next) => {
+    const { itemID } = req.params;
+    const { isSold } = req.body;
+
+    const item = await Item.findOne({
+      where: {
+        id: itemID,
+      },
+    });
+
+    if (!item) {
+      return next(
+        new ErrorResponse(`Cannot find item with id ${itemID}.`, 404)
+      );
+    }
+
+    if (item.AccountId !== req.user.id) {
+      return next(
+        new ErrorResponse(`You don't have item with id ${itemID}.`, 401)
+      );
+    }
+
+    await item.update({
+      isSold,
+    });
+
+    return res.status(200).json({
+      success: true,
+      data: item,
+    });
+  }),
+
+  getSoldItems: asyncHandle(async (req, res, next) => {
+    const { name } = req.query;
+    let { page, limit } = req.query;
+    let query = {
+      AccountId: req.user.id,
+      isSold: true,
+    };
+
     if (name) {
       query = {
         ...query,
@@ -369,18 +522,32 @@ module.exports = {
     }
 
     if (!page) {
-      page = 0;
+      page = 1;
     }
 
-    const items = await Item.findAll({
+    const limitPerPage = Number(limit) || 10;
+
+    const items = await Item.findAndCountAll({
       where: query,
-      offset: parseInt(page),
-      limit: 10,
+      include: [
+        {
+          model: ItemImage,
+          as: "itemimages",
+        },
+      ],
+      distinct: true,
+      offset: (Number(page) - 1) * limitPerPage,
+      limit: limitPerPage,
+      order: [["id", "DESC"]],
     });
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
-      data: items,
+      data: items.rows,
+      pagination: {
+        page: Number(page) || 1,
+        total: items.count,
+      },
     });
   }),
 };
