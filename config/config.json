@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "root",
-    "password": "",
+    "username": "admin_App",
+    "password": "Nikolai19841310",
     "database": "db_m4yby",
-    "host": "localhost",
+    "host": "db-m4yby.cvfbufjz85ky.ap-southeast-1.rds.amazonaws.com",
     "dialect": "mysql"
   },
   "test": {
