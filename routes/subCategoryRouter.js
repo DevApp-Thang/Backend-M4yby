@@ -4,6 +4,6 @@ const { getSubCategories } = require("../controllers/subCategoryController");
 
 const router = express.Router();
 
-router.route("/sub-category").get(protect, getSubCategories);
+router.route("/sub-category/:id").get(protect, getSubCategories);
 
 module.exports = router;

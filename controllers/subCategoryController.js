@@ -7,6 +7,9 @@ module.exports = {
     const query = {
       attributes: ["id", "name"],
       order: [["id", "DESC"]],
+      where: {
+        CategoryId: req.params.id,
+      },
     };
 
     let subCategories;
