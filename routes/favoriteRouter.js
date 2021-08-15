@@ -8,11 +8,8 @@ const {
 
 const router = express.Router();
 
-router
-  .route("/favorite")
-  .get(protect, getFavorites)
-  .post(protect, addToFavorite);
+router.route("/").get(protect, getFavorites).post(protect, addToFavorite);
 
-router.delete("/favorite/:id", protect, deleteItem);
+router.delete("/:id", protect, deleteItem);
 
 module.exports = router;

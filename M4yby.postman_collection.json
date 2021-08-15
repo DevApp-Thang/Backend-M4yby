@@ -20,12 +20,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/api/register",
+					"raw": "{{url}}/api/auth/register",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
 						"api",
+						"auth",
 						"register"
 					]
 				}
@@ -39,7 +40,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"demo@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+					"raw": "{\r\n    \"email\": \"hdkhanhit@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -47,12 +48,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/api/login",
+					"raw": "{{url}}/api/auth/login",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
 						"api",
+						"auth",
 						"login"
 					]
 				}
@@ -74,14 +76,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:6969/api/token",
-					"protocol": "http",
+					"raw": "{{url}}/api/auth/token",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "6969",
 					"path": [
 						"api",
+						"auth",
 						"token"
 					]
 				}
@@ -94,12 +95,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{url}}/api/me",
+					"raw": "{{url}}/api/auth/me",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
 						"api",
+						"auth",
 						"me"
 					]
 				}
@@ -131,14 +133,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:6969/api/me/updateDetails",
-					"protocol": "http",
+					"raw": "{{url}}/api/auth/me/updateDetails",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "6969",
 					"path": [
 						"api",
+						"auth",
 						"me",
 						"updateDetails"
 					]
@@ -171,14 +172,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:6969/api/me/updatePassword",
-					"protocol": "http",
+					"raw": "{{url}}/api/auth/me/updatePassword",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "6969",
 					"path": [
 						"api",
+						"auth",
 						"me",
 						"updatePassword"
 					]
@@ -201,14 +201,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:6969/api/forgotPassword",
-					"protocol": "http",
+					"raw": "{{url}}/api/auth/forgotPassword",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "6969",
 					"path": [
 						"api",
+						"auth",
 						"forgotPassword"
 					]
 				}
@@ -230,14 +229,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:6969/api/resetPassword/fca5a61c93792e2f54d55ae129304a890fe08a7d",
-					"protocol": "http",
+					"raw": "{{url}}/api/auth/resetPassword/fca5a61c93792e2f54d55ae129304a890fe08a7d",
 					"host": [
-						"localhost"
+						"{{url}}"
 					],
-					"port": "6969",
 					"path": [
 						"api",
+						"auth",
 						"resetPassword",
 						"fca5a61c93792e2f54d55ae129304a890fe08a7d"
 					]
@@ -385,7 +383,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"isSold\": false\r\n}",
+					"raw": "{\r\n    \"isSold\": true\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -543,13 +541,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{url}}/api/item-sold",
+					"raw": "{{url}}/api/item/sold/list",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
 						"api",
-						"item-sold"
+						"item",
+						"sold",
+						"list"
 					],
 					"query": [
 						{
@@ -608,12 +608,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{url}}/api/sub-category",
+					"raw": "{{url}}/api/category/3/sub-category",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
 						"api",
+						"category",
+						"3",
 						"sub-category"
 					]
 				}
@@ -690,14 +692,14 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{url}}/api/favorite/2",
+					"raw": "{{url}}/api/favorite/5",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
 						"api",
 						"favorite",
-						"2"
+						"5"
 					]
 				}
 			},
@@ -720,6 +722,26 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Get list product",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/sub-category/2/product",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"sub-category",
+						"2",
+						"product"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"auth": {
@@ -727,7 +749,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjI4MTc1MzIyLCJleHAiOjE2MjgyNjE3MjJ9.hdGHEI0DipgTLE7Iky6utOqInf7ed0EQF_jGvWZYqhs",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjI5MDEyNTk0LCJleHAiOjE2MjkwOTg5OTR9.jeQxNeClQ2jS1KOdUIY5KZPFZMD7LtteqkzAvNbdMOY",
 				"type": "string"
 			}
 		]

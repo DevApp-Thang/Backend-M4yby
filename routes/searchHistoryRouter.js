@@ -7,7 +7,7 @@ const {
 
 const router = express.Router();
 
-router.route("/search-history").get(protect, getSearchHistory);
-router.route("/search-history/:id").delete(protect, deleteSearchHistory);
+router.route("/").get(protect, getSearchHistory);
+router.route("/:id").delete(protect, deleteSearchHistory);
 
 module.exports = router;

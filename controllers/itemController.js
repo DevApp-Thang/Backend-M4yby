@@ -11,6 +11,7 @@ const {
   sequelize,
   Account,
   Product,
+  Favorite,
 } = require("../models");
 const ErrorResponse = require("../helpers/ErrorResponse");
 
@@ -466,9 +467,26 @@ module.exports = {
       return next(new ErrorResponse(`Cannot find item with id ${itemID}`, 404));
     }
 
+    const favorite = await Favorite.findOne({
+      where: {
+        ItemId: itemID,
+        AccountId: req.user.id,
+      },
+    });
+
+    let isFavorite = true;
+    if (!favorite) {
+      isFavorite = false;
+    }
+
+    const dataResponse = {
+      ...item.dataValues,
+      isFavorite,
+    };
+
     return res.status(200).json({
       success: true,
-      data: item,
+      data: dataResponse,
     });
   }),
 

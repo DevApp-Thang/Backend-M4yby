@@ -12,14 +12,14 @@ const { protect } = require("../middlewares/auth");
 
 const router = express.Router();
 
-router.route("/item").post(protect, createItem).get(protect, searchItem);
+router.route("/").post(protect, createItem).get(protect, searchItem);
 router
-  .route("/item/:itemID")
+  .route("/:itemID")
   .put(protect, updateItem)
   .delete(protect, deleteItem)
   .get(protect, getItemDetail);
 
-router.route("/item/:itemID/status").put(protect, updateStatusItem);
-router.route("/item-sold").get(protect, getSoldItems);
+router.route("/:itemID/status").put(protect, updateStatusItem);
+router.route("/sold/list").get(protect, getSoldItems);
 
 module.exports = router;
