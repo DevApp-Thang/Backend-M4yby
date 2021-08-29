@@ -79,7 +79,12 @@ module.exports = {
   deleteItem: asyncHandle(async (req, res, next) => {
     const { id } = req.params;
 
-    const favorite = await Favorite.findByPk(id);
+    const favorite = await Favorite.findOne({
+      where: {
+        AccountId: req.user.id,
+        ItemId: id,
+      },
+    });
 
     if (!favorite) {
       return next(new ErrorResponse(`Can not find item with id ${id}`, 404));
