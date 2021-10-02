@@ -23,6 +23,21 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "cascade",
       });
 
+      this.belongsTo(models.PlaceOfRendering, {
+        foreignKey: "PlaceOfRenderingId",
+        onDelete: "cascade",
+      });
+
+      this.belongsTo(models.PriceIndicated, {
+        foreignKey: "PriceIndicatedId",
+        onDelete: "cascade",
+      });
+
+      this.belongsTo(models.TypeOfService, {
+        foreignKey: "TypeOfServiceId",
+        onDelete: "cascade",
+      });
+
       this.hasMany(models.ItemImage, {
         foreignKey: "ItemId",
         as: "itemimages",
