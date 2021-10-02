@@ -94,6 +94,16 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
+      allowToCall: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+      timeCallFrom: {
+        type: DataTypes.DATE,
+      },
+      timeCallTo: {
+        type: DataTypes.DATE,
+      },
     },
     {
       sequelize,
