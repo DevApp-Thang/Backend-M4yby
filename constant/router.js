@@ -9,6 +9,7 @@ const productRouter = require("../routes/productRouter");
 const typeOfServiceRouter = require("../routes/typeOfServiceRouter");
 const priceIndicatedRouter = require("../routes/priceIndicatedRouter");
 const placeOfRenderRouter = require("../routes/placeOfRenderRouter");
+const rateRouter = require("../routes/rateRouter");
 
 module.exports = [
   {
@@ -50,5 +51,9 @@ module.exports = [
   {
     router: placeOfRenderRouter,
     endpoint: APIEnum.PLACE_OF_RENDERING,
+  },
+  {
+    router: rateRouter,
+    endpoint: APIEnum.RATE,
   },
 ];

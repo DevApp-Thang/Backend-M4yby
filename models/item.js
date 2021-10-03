@@ -38,6 +38,11 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "cascade",
       });
 
+      this.hasMany(models.Rate, {
+        foreignKey: "itemId",
+        as: "rates",
+      });
+
       this.hasMany(models.ItemImage, {
         foreignKey: "ItemId",
         as: "itemimages",

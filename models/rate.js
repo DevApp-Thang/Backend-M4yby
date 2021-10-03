@@ -1,5 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
+const { Item } = require("./");
+
 module.exports = (sequelize, DataTypes) => {
   class Rate extends Model {
     /**
@@ -8,12 +10,25 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.belongsTo(models.Account, {
+        foreignKey: "sellerId",
+        onDelete: "cascade",
+      });
+
+      this.belongsTo(models.Account, {
+        foreignKey: "voterId",
+        onDelete: "cascade",
+      });
+
+      this.belongsTo(models.Item, {
+        foreignKey: "itemId",
+        onDelete: "cascade",
+      });
     }
   }
   Rate.init(
     {
-      rate: {
+      value: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
@@ -29,6 +44,18 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
+      hooks: {
+        beforeCreate: async (vote, options) => {
+          const item = await Item.findByPk(vote.itemId);
+          const { count, rows } = await this.findAndCountAll({
+            where: {
+              itemId: vote.itemId,
+            },
+          });
+        },
+        beforeUpdate: async (vote, options) => {},
+        beforeDestroy: async (vote, options) => {},
+      },
       sequelize,
       modelName: "Rate",
     }
