@@ -11,7 +11,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    await queryInterface.bulkInsert("TypeOfService", [
+    await queryInterface.bulkInsert("TypeOfServices", [
       {
         name: "Artistic disciplines",
       },

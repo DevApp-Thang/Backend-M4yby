@@ -6,4 +6,7 @@ module.exports.APIEnum = {
   PRODUCT: "product",
   SEARCH_HISTORY: "search-history",
   SUB_CATEGORY: "sub-category",
+  TYPE_OF_SERVICE: "type-of-service",
+  PRICE_INDICATED: "price-indicated",
+  PLACE_OF_RENDERING: "place-of-rendering",
 };

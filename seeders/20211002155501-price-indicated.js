@@ -11,7 +11,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    await queryInterface.bulkInsert("PriceIndicated", [
+    await queryInterface.bulkInsert("PriceIndicateds", [
       {
         name: "Per hour",
       },

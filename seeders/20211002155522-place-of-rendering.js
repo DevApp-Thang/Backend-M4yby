@@ -11,7 +11,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    await queryInterface.bulkInsert("PlaceOfRendering", [
+    await queryInterface.bulkInsert("PlaceOfRenderings", [
       {
         name: "Remotely",
       },

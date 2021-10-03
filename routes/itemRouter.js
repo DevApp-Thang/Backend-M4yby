@@ -7,6 +7,7 @@ const {
   getItemDetail,
   updateStatusItem,
   getSoldItems,
+  getItemsByMe,
 } = require("../controllers/itemController");
 const { protect } = require("../middlewares/auth");
 
@@ -21,5 +22,6 @@ router
 
 router.route("/:itemID/status").put(protect, updateStatusItem);
 router.route("/sold/list").get(protect, getSoldItems);
+router.route("/me/list").get(protect, getItemsByMe);
 
 module.exports = router;

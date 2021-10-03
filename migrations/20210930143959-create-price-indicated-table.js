@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("PriceIndicated", {
+    await queryInterface.createTable("PriceIndicateds", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -25,6 +25,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("PriceIndicated");
+    await queryInterface.dropTable("PriceIndicateds");
   },
 };

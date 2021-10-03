@@ -568,4 +568,50 @@ module.exports = {
       },
     });
   }),
+
+  getItemsByMe: asyncHandle(async (req, res, next) => {
+    const { name } = req.query;
+    let { page, limit } = req.query;
+    let query = {
+      AccountId: req.user.id,
+    };
+
+    if (name) {
+      query = {
+        ...query,
+        name: {
+          [Op.like]: `%${name}%`,
+        },
+      };
+    }
+
+    if (!page) {
+      page = 1;
+    }
+
+    const limitPerPage = Number(limit) || 10;
+
+    const items = await Item.findAndCountAll({
+      where: query,
+      include: [
+        {
+          model: ItemImage,
+          as: "itemimages",
+        },
+      ],
+      distinct: true,
+      offset: (Number(page) - 1) * limitPerPage,
+      limit: limitPerPage,
+      order: [["id", "DESC"]],
+    });
+
+    return res.status(200).json({
+      success: true,
+      data: items.rows,
+      pagination: {
+        page: Number(page) || 1,
+        total: items.count,
+      },
+    });
+  }),
 };

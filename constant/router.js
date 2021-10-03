@@ -6,6 +6,9 @@ const subCategoryRouter = require("../routes/subCategoryRouter");
 const searchHistoryRouter = require("../routes/searchHistoryRouter");
 const favoriteRouter = require("../routes/favoriteRouter");
 const productRouter = require("../routes/productRouter");
+const typeOfServiceRouter = require("../routes/typeOfServiceRouter");
+const priceIndicatedRouter = require("../routes/priceIndicatedRouter");
+const placeOfRenderRouter = require("../routes/placeOfRenderRouter");
 
 module.exports = [
   {
@@ -35,5 +38,17 @@ module.exports = [
   {
     router: productRouter,
     endpoint: APIEnum.PRODUCT,
+  },
+  {
+    router: typeOfServiceRouter,
+    endpoint: APIEnum.TYPE_OF_SERVICE,
+  },
+  {
+    router: priceIndicatedRouter,
+    endpoint: APIEnum.PRICE_INDICATED,
+  },
+  {
+    router: placeOfRenderRouter,
+    endpoint: APIEnum.PLACE_OF_RENDERING,
   },
 ];
