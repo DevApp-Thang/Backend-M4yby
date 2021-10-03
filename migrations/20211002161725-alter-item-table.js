@@ -14,11 +14,17 @@ module.exports = {
       allowNull: true,
       type: Sequelize.DATE,
     });
+    await queryInterface.addColumn("Items", "rating", {
+      allowNull: false,
+      type: Sequelize.DECIMAL(10, 1),
+      defaultValue: 5,
+    });
   },
 
   down: async (queryInterface, Sequelize) => {
     await queryInterface.removeColumn("Items", "allowToCall");
     await queryInterface.removeColumn("Items", "timeCallFrom");
     await queryInterface.removeColumn("Items", "timeCallTo");
+    await queryInterface.removeColumn("Items", "rating");
   },
 };
