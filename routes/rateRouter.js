@@ -4,6 +4,6 @@ const { create } = require("../controllers/rateController");
 
 const router = express.Router();
 
-router.route("/").get(protect, create);
+router.route("/").post(protect, create);
 
 module.exports = router;

@@ -109,6 +109,16 @@ module.exports = (sequelize, DataTypes) => {
       timeCallTo: {
         type: DataTypes.DATE,
       },
+      rating: {
+        type: DataTypes.DECIMAL(10, 1),
+        allowNull: false,
+        validate: {
+          len: {
+            args: [1, 5],
+            msg: "Please enter rating from 1 to 5.",
+          },
+        },
+      },
     },
     {
       sequelize,

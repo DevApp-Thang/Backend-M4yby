@@ -1,6 +1,5 @@
 "use strict";
 const { Model } = require("sequelize");
-const { Item } = require("./");
 
 module.exports = (sequelize, DataTypes) => {
   class Rate extends Model {
@@ -44,18 +43,6 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      hooks: {
-        beforeCreate: async (vote, options) => {
-          const item = await Item.findByPk(vote.itemId);
-          const { count, rows } = await this.findAndCountAll({
-            where: {
-              itemId: vote.itemId,
-            },
-          });
-        },
-        beforeUpdate: async (vote, options) => {},
-        beforeDestroy: async (vote, options) => {},
-      },
       sequelize,
       modelName: "Rate",
     }
