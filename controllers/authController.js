@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const ErrorResponse = require("../helpers/ErrorResponse");
 const asyncHandle = require("../middlewares/asyncHandle");
-const { Account } = require("../models");
+const { Account, Rate } = require("../models");
 const { getResetPasswordToken } = require("../helpers/resetPassword");
 const sendEmail = require("../helpers/sendMail");
 const refreshTokens = {};
@@ -114,11 +114,23 @@ module.exports = {
     }
   }),
   getMe: asyncHandle(async (req, res, next) => {
-    const user = await Account.findByPk(req.user.id);
+    const rate = await Rate.findAll({
+      where: {
+        voterId: req.user.id,
+      },
+    });
+
+    delete req.user.dataValues.password;
+
+    const data = {
+      ...req.user.dataValues,
+      countRate: rate.length,
+      rating: Number(req.user.dataValues.rating),
+    };
 
     return res.status(200).json({
       success: true,
-      data: user,
+      data: data,
     });
   }),
   updateDetails: asyncHandle(async (req, res) => {
