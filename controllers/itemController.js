@@ -20,7 +20,21 @@ module.exports = {
   createItem: asyncHandle(async (req, res, next) => {
     const transaction = await sequelize.transaction();
 
-    const { lng, lat, name, description, price, ProductId, images } = req.body;
+    const {
+      lng,
+      lat,
+      name,
+      description,
+      price,
+      ProductId,
+      images,
+      TypeOfServiceId,
+      PriceIndicatedId,
+      PlaceOfRenderingId,
+      allowToCall,
+      timeCallFrom,
+      timeCallTo,
+    } = req.body;
     const AccountId = req.user.id;
 
     let status = false;
@@ -56,6 +70,12 @@ module.exports = {
           ProductId,
           LocationId: location.id,
           rating: 5,
+          TypeOfServiceId,
+          PriceIndicatedId,
+          PlaceOfRenderingId,
+          allowToCall,
+          timeCallFrom,
+          timeCallTo,
         },
         {
           transaction,
@@ -103,7 +123,21 @@ module.exports = {
 
   updateItem: asyncHandle(async (req, res, next) => {
     const { images } = req.files;
-    const { lng, lat, name, description, price, ProductId, isSold } = req.body;
+    const {
+      lng,
+      lat,
+      name,
+      description,
+      price,
+      ProductId,
+      isSold,
+      TypeOfServiceId,
+      PriceIndicatedId,
+      PlaceOfRenderingId,
+      allowToCall,
+      timeCallFrom,
+      timeCallTo,
+    } = req.body;
     const AccountId = req.user.id;
     const { itemID } = req.params;
 
