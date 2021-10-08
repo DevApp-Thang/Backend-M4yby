@@ -34,6 +34,7 @@ module.exports = {
       email,
       password,
       gender,
+      rating: 5,
     });
 
     sendTokenResponse(account, 201, res);

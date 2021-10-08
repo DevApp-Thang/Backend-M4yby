@@ -14,13 +14,13 @@ const {
   Favorite,
 } = require("../models");
 const ErrorResponse = require("../helpers/ErrorResponse");
+const { decodeBase64 } = require("../helpers/decodeBase64");
 
 module.exports = {
   createItem: asyncHandle(async (req, res, next) => {
     const transaction = await sequelize.transaction();
 
-    const { images } = req.files;
-    const { lng, lat, name, description, price, ProductId } = req.body;
+    const { lng, lat, name, description, price, ProductId, images } = req.body;
     const AccountId = req.user.id;
 
     let status = false;
@@ -55,6 +55,7 @@ module.exports = {
           AccountId,
           ProductId,
           LocationId: location.id,
+          rating: 5,
         },
         {
           transaction,
@@ -67,26 +68,13 @@ module.exports = {
         for (let index = 0; index < images.length; index++) {
           const file = images[index];
 
-          if (!file.mimetype.startsWith("image")) {
-            continue;
-          }
+          const imageName = `${AccountId}${code}${index}`;
 
-          // if(file.size > process.env.MAX_SIZE_UPLOAD){
-          //   continue;
-          // }
+          decodeBase64(file, imageName);
 
-          file.name = `${AccountId}${code}${index}${path.parse(file.name).ext}`;
-
-          file.mv(`${process.env.FOLDER_DEFAULT}/${file.name}`, async (err) => {
-            if (err) {
-              console.log(`Error upload image ${index}: ${err}`);
-              this.continue;
-            }
-          });
-
-          const imageUrl = `${req.protocol}://${req.get("host")}/images/${
-            file.name
-          }`;
+          const imageUrl = `${req.protocol}://${req.get(
+            "host"
+          )}/images/${imageName}`;
 
           fileSuccess.push({ source: imageUrl, ItemId: item.id });
         }
@@ -145,26 +133,13 @@ module.exports = {
         for (let index = 0; index < images.length; index++) {
           const file = images[index];
 
-          if (!file.mimetype.startsWith("image")) {
-            continue;
-          }
+          const imageName = `${AccountId}${code}${index}`;
 
-          // if(file.size > process.env.MAX_SIZE_UPLOAD){
-          //   continue;
-          // }
+          decodeBase64(file, imageName);
 
-          file.name = `${AccountId}${code}${index}${path.parse(file.name).ext}`;
-
-          file.mv(`${process.env.FOLDER_DEFAULT}/${file.name}`, async (err) => {
-            if (err) {
-              console.log(`Error upload image ${index}: ${err}`);
-              this.continue;
-            }
-          });
-
-          const imageUrl = `${req.protocol}://${req.get("host")}/images/${
-            file.name
-          }`;
+          const imageUrl = `${req.protocol}://${req.get(
+            "host"
+          )}/images/${imageName}`;
 
           fileSuccess.push({ source: imageUrl, ItemId: id });
         }
