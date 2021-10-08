@@ -123,21 +123,7 @@ module.exports = {
 
   updateItem: asyncHandle(async (req, res, next) => {
     const { images } = req.files;
-    const {
-      lng,
-      lat,
-      name,
-      description,
-      price,
-      ProductId,
-      isSold,
-      TypeOfServiceId,
-      PriceIndicatedId,
-      PlaceOfRenderingId,
-      allowToCall,
-      timeCallFrom,
-      timeCallTo,
-    } = req.body;
+    const { lng, lat, name, description, price, ProductId, isSold } = req.body;
     const AccountId = req.user.id;
     const { itemID } = req.params;
 
