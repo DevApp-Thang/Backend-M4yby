@@ -104,10 +104,10 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: false,
       },
       timeCallFrom: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
       },
       timeCallTo: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
       },
       rating: {
         type: DataTypes.DECIMAL(10, 1),
