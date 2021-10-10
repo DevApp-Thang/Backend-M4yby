@@ -90,11 +90,11 @@ module.exports = {
 
           const imageName = `${AccountId}${code}${index}`;
 
-          decodeBase64(file, imageName);
+          const extension = decodeBase64(file, imageName);
 
           const imageUrl = `${req.protocol}://${req.get(
             "host"
-          )}/images/${imageName}`;
+          )}/images/${imageName}.${extension}`;
 
           fileSuccess.push({ source: imageUrl, ItemId: item.id });
         }
@@ -155,11 +155,11 @@ module.exports = {
 
           const imageName = `${AccountId}${code}${index}`;
 
-          decodeBase64(file, imageName);
+          const extension = decodeBase64(file, imageName);
 
           const imageUrl = `${req.protocol}://${req.get(
             "host"
-          )}/images/${imageName}`;
+          )}/images/${imageName}.${extension}`;
 
           fileSuccess.push({ source: imageUrl, ItemId: id });
         }

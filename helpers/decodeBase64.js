@@ -27,7 +27,7 @@ exports.decodeBase64 = (base64str, filename) => {
       imageBuffer,
       "utf8"
     );
-    return true;
+    return extension;
   } catch (error) {
     throw new ErrorResponse(`Faild to upload image: ${error.message}`, 403);
   }
