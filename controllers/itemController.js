@@ -14,11 +14,12 @@ const {
   Favorite,
 } = require("../models");
 const ErrorResponse = require("../helpers/ErrorResponse");
-const { decodeBase64 } = require("../helpers/decodeBase64");
 
 module.exports = {
   createItem: asyncHandle(async (req, res, next) => {
     const transaction = await sequelize.transaction();
+
+    const { images } = req.files;
 
     const {
       lng,
@@ -88,13 +89,26 @@ module.exports = {
         for (let index = 0; index < images.length; index++) {
           const file = images[index];
 
-          const imageName = `${AccountId}${code}${index}`;
+          if (!file.mimetype.startsWith("image")) {
+            continue;
+          }
 
-          const extension = decodeBase64(file, imageName);
+          // if(file.size > process.env.MAX_SIZE_UPLOAD){
+          //   continue;
+          // }
 
-          const imageUrl = `${req.protocol}://${req.get(
-            "host"
-          )}/images/${imageName}.${extension}`;
+          file.name = `${AccountId}${code}${index}${path.parse(file.name).ext}`;
+
+          file.mv(`${process.env.FOLDER_DEFAULT}/${file.name}`, async (err) => {
+            if (err) {
+              console.log(`Error upload image ${index}: ${err}`);
+              this.continue;
+            }
+          });
+
+          const imageUrl = `${req.protocol}://${req.get("host")}/images/${
+            file.name
+          }`;
 
           fileSuccess.push({ source: imageUrl, ItemId: item.id });
         }
@@ -153,13 +167,26 @@ module.exports = {
         for (let index = 0; index < images.length; index++) {
           const file = images[index];
 
-          const imageName = `${AccountId}${code}${index}`;
+          if (!file.mimetype.startsWith("image")) {
+            continue;
+          }
 
-          const extension = decodeBase64(file, imageName);
+          // if(file.size > process.env.MAX_SIZE_UPLOAD){
+          //   continue;
+          // }
 
-          const imageUrl = `${req.protocol}://${req.get(
-            "host"
-          )}/images/${imageName}.${extension}`;
+          file.name = `${AccountId}${code}${index}${path.parse(file.name).ext}`;
+
+          file.mv(`${process.env.FOLDER_DEFAULT}/${file.name}`, async (err) => {
+            if (err) {
+              console.log(`Error upload image ${index}: ${err}`);
+              this.continue;
+            }
+          });
+
+          const imageUrl = `${req.protocol}://${req.get("host")}/images/${
+            file.name
+          }`;
 
           fileSuccess.push({ source: imageUrl, ItemId: id });
         }
