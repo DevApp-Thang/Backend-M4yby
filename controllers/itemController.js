@@ -17,8 +17,6 @@ const ErrorResponse = require("../helpers/ErrorResponse");
 
 module.exports = {
   createItem: asyncHandle(async (req, res, next) => {
-    const transaction = await sequelize.transaction();
-
     const { images } = req.files;
 
     const {
@@ -52,6 +50,7 @@ module.exports = {
         status = true;
       }
     }
+    const transaction = await sequelize.transaction();
     try {
       const location = await Location.create(
         {
