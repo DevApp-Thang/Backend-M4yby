@@ -26,7 +26,6 @@ module.exports = {
       description,
       price,
       ProductId,
-      images,
       TypeOfServiceId,
       PriceIndicatedId,
       PlaceOfRenderingId,
