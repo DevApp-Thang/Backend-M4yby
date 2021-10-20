@@ -1,32 +1,42 @@
 module.exports = {
-    apps : [{
+  apps: [
+    {
       name: "app",
       script: "./bin/www",
       env: {
         NODE_ENV: "development",
         PORT: 3000,
-        SECRET_TOKEN : "W45DbGat>:(>XF4{",
-        TOKEN_EXPIRE : "1h",
-        SECRET_REFRESH_TOKEN : "?28FTP.Z4uxG7D26",
-        REFRESH_TOKEN_EXPIRE : "30d",
-        SMTP_EMAIL : "",
-        SMTP_PASSWORD : "",
-        FROM_NAME : "",
-        FROM_EMAIL : "",
-        FOLDER_DEFAULT : "./public/images"
+        SECRET_TOKEN: "W45DbGat>:(>XF4{",
+        TOKEN_EXPIRE: "1h",
+        SECRET_REFRESH_TOKEN: "?28FTP.Z4uxG7D26",
+        REFRESH_TOKEN_EXPIRE: "30d",
+        SMTP_EMAIL: "",
+        SMTP_PASSWORD: "",
+        FROM_NAME: "",
+        FROM_EMAIL: "",
+        FOLDER_DEFAULT: "./public/images",
+        SMTP_EMAIL: "m4yby.dev@gmail.com",
+        FROM_EMAIL: "m4yby.dev@gmail.com",
+        SMTP_PASSWORD: "12345Abc@",
+        FROM_NAME: "M4yby",
       },
       env_production: {
         NODE_ENV: "production",
         PORT: 3000,
-        SECRET_TOKEN : "W45DbGat>:(>XF4{",
-        TOKEN_EXPIRE : "1h",
-        SECRET_REFRESH_TOKEN : "?28FTP.Z4uxG7D26",
-        REFRESH_TOKEN_EXPIRE : "30d",
-        SMTP_EMAIL : "",
-        SMTP_PASSWORD : "",
-        FROM_NAME : "",
-        FROM_EMAIL : "",
-        FOLDER_DEFAULT : "./public/images"
-      }
-    }]
-  }
+        SECRET_TOKEN: "W45DbGat>:(>XF4{",
+        TOKEN_EXPIRE: "1h",
+        SECRET_REFRESH_TOKEN: "?28FTP.Z4uxG7D26",
+        REFRESH_TOKEN_EXPIRE: "30d",
+        SMTP_EMAIL: "",
+        SMTP_PASSWORD: "",
+        FROM_NAME: "",
+        FROM_EMAIL: "",
+        FOLDER_DEFAULT: "./public/images",
+        SMTP_EMAIL: "m4yby.dev@gmail.com",
+        FROM_EMAIL: "m4yby.dev@gmail.com",
+        SMTP_PASSWORD: "12345Abc@",
+        FROM_NAME: "M4yby",
+      },
+    },
+  ],
+};
