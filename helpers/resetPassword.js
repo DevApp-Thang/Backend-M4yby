@@ -1,18 +1,12 @@
 const crypto = require("crypto");
 
 module.exports.getResetPasswordToken = () => {
-  const resetToken = crypto.randomBytes(20).toString("hex");
+  const otpCode = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
 
-  const resetPasswordToken = crypto
-    .createHash("sha256")
-    .update(resetToken)
-    .digest("hex");
-
-  const resetPasswordExpire = Date.now() + 10 * 60 * 1000;
+  const otpCodeExpired = Date.now() + 10 * 60 * 1000;
 
   return {
-    resetToken,
-    resetPasswordToken,
-    resetPasswordExpire,
+    otpCode,
+    otpCodeExpired,
   };
 };

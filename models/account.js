@@ -137,8 +137,8 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      resetPasswordToken: DataTypes.STRING,
-      resetPasswordExpire: DataTypes.DATE,
+      otpCode: DataTypes.STRING,
+      otpCodeExpired: DataTypes.DATE,
       rating: {
         type: DataTypes.DECIMAL(10, 1),
         allowNull: false,

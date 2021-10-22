@@ -181,10 +181,10 @@ module.exports = {
     });
   }),
   resetPassword: asyncHandle(async (req, res, next) => {
-    const { resetToken } = req.params;
+    const { otpCode } = req.params;
     const { password } = req.body;
 
-    if (!resetToken) {
+    if (!otpCode) {
       return next(new ErrorResponse(`ResetToken is invalid.`, 400));
     }
 
@@ -192,15 +192,10 @@ module.exports = {
       return next(new ErrorResponse(`Password is invalid.`, 400));
     }
 
-    const resetPasswordToken = crypto
-      .createHash("sha256")
-      .update(resetToken)
-      .digest("hex");
-
     const user = await Account.findOne({
       where: {
-        resetPasswordToken,
-        resetPasswordExpire: {
+        otpCode,
+        otpCodeExpired: {
           [Op.gt]: Date.now(),
         },
       },
@@ -212,8 +207,8 @@ module.exports = {
 
     const newUser = await user.update({
       password,
-      resetPasswordToken: null,
-      resetPasswordExpire: null,
+      otpCode: null,
+      otpCodeExpired: null,
     });
 
     sendTokenResponse(newUser, 200, res);
@@ -237,23 +232,19 @@ module.exports = {
       );
     }
 
-    const { resetToken, resetPasswordExpire, resetPasswordToken } =
-      getResetPasswordToken();
+    const { otpCode, otpCodeExpired } = getResetPasswordToken();
 
     await user.update({
-      resetPasswordToken,
-      resetPasswordExpire,
+      otpCode,
+      otpCodeExpired,
     });
 
-    const resetUrl = `${req.protocol}://${req.get(
-      "host"
-    )}/api/resetPassword/${resetToken}`;
-    const message = `Click to ${resetUrl} to reset password`;
+    const message = `Mã OTP: ${otpCode}, tồn tại trong 10 phút.`;
 
     try {
       await sendEmail({
         email: email,
-        subejct: "Reset password",
+        subejct: "Forgot password",
         message,
       });
 
@@ -265,10 +256,31 @@ module.exports = {
       console.log(err.message);
 
       await user.update({
-        resetPasswordExpire: null,
-        resetPasswordToken: null,
+        otpCode: null,
+        otpCodeExpired: null,
       });
       return next(new ErrorResponse(`Email coult not be sent`, 500));
     }
+  }),
+  validateCode: asyncHandle(async (req, res, next) => {
+    const { otpCode } = req.body;
+
+    const user = await Account.findOne({
+      where: {
+        otpCode,
+        otpCodeExpired: {
+          [Op.gt]: Date.now(),
+        },
+      },
+    });
+
+    if (!user) {
+      return next(new ErrorResponse(`Wrong OTP.`, 400));
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: "Success",
+    });
   }),
 };
