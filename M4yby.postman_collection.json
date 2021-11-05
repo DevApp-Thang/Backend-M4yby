@@ -68,7 +68,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIxNjE4MjQzLCJleHAiOjE2NTIzNzY2NDN9.G-dYieR_SZngXPqX1WWefsq29p3g2STfiTVvBgFejSM\"\r\n}",
+					"raw": "{\r\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjMzNDQ3Nzk4LCJleHAiOjE2MzM1MzQxOTh9.AcrmJtB_Fb6i0ho_lcsRg19QMe5kpWJe9zK2K4qiuak\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -215,6 +215,34 @@
 			"response": []
 		},
 		{
+			"name": "Validate OTP",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"otpCode\": \"178830\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/auth/validateOtp",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"validateOtp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Reset password",
 			"request": {
 				"method": "PUT",
@@ -229,7 +257,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/api/auth/resetPassword/fca5a61c93792e2f54d55ae129304a890fe08a7d",
+					"raw": "{{url}}/api/auth/resetPassword/178830",
 					"host": [
 						"{{url}}"
 					],
@@ -237,7 +265,7 @@
 						"api",
 						"auth",
 						"resetPassword",
-						"fca5a61c93792e2f54d55ae129304a890fe08a7d"
+						"178830"
 					]
 				}
 			},
@@ -251,16 +279,6 @@
 				"body": {
 					"mode": "formdata",
 					"formdata": [
-						{
-							"key": "images",
-							"type": "file",
-							"src": "/C:/Users/DuyKhanh/Pictures/22.png"
-						},
-						{
-							"key": "images",
-							"type": "file",
-							"src": "/C:/Users/DuyKhanh/Pictures/893_day_cho_con_lam_quen_khi_ve_nha_moi.jpg"
-						},
 						{
 							"key": "lng",
 							"value": "70",
@@ -283,15 +301,55 @@
 						},
 						{
 							"key": "price",
-							"value": "1000000",
+							"value": "ProductId",
 							"type": "text"
 						},
 						{
-							"key": "ProductId",
-							"value": "2",
+							"key": "TypeOfServiceId",
+							"value": "1",
 							"type": "text"
+						},
+						{
+							"key": "PriceIndicatedId",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "PlaceOfRenderingId",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "allowToCall",
+							"value": "false",
+							"type": "text"
+						},
+						{
+							"key": "timeCallFrom",
+							"value": "20:00",
+							"type": "text"
+						},
+						{
+							"key": "timeCallTo",
+							"value": "21:00",
+							"type": "text"
+						},
+						{
+							"key": "images",
+							"type": "file",
+							"src": "/C:/Users/DuyKhanh/Pictures/22.png"
+						},
+						{
+							"key": "images",
+							"type": "file",
+							"src": "/C:/Users/DuyKhanh/Pictures/70c6461c88417f44ddb9926577eb3fb4.jpg"
 						}
-					]
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
 				},
 				"url": {
 					"raw": "{{url}}/api/item",
@@ -314,17 +372,6 @@
 				"body": {
 					"mode": "formdata",
 					"formdata": [
-						{
-							"key": "images",
-							"type": "file",
-							"src": "/C:/Users/DuyKhanh/Pictures/avatarTet2-01.png"
-						},
-						{
-							"key": "images",
-							"type": "file",
-							"src": [],
-							"disabled": true
-						},
 						{
 							"key": "name",
 							"value": "iphone 6 cũ lắm rồi",
@@ -351,7 +398,7 @@
 							"type": "text"
 						},
 						{
-							"key": "long",
+							"key": "lng",
 							"value": "70",
 							"type": "text"
 						},
@@ -360,7 +407,12 @@
 							"value": "70",
 							"type": "text"
 						}
-					]
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
 				},
 				"url": {
 					"raw": "{{url}}/api/item/3",
@@ -383,7 +435,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"isSold\": true\r\n}",
+					"raw": "{\r\n    \"isSold\": false\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -391,14 +443,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{url}}/api/item/2/status",
+					"raw": "{{url}}/api/item/4/status",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
 						"api",
 						"item",
-						"2",
+						"4",
 						"status"
 					]
 				}
@@ -442,14 +494,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{url}}/api/item/2",
+					"raw": "{{url}}/api/item/4",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
 						"api",
 						"item",
-						"2"
+						"4"
 					]
 				}
 			},
@@ -742,6 +794,131 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Get list type of service",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/type-of-service",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"type-of-service"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get list price indicated",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/price-indicated",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"price-indicated"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get list place of rendering",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/place-of-rendering",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"place-of-rendering"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get list item by me",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/item/me/list",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"item",
+						"me",
+						"list"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "iphone",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit rate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"value\": 5,\r\n    \"description\": \"đánh giá\",\r\n    \"sellerId\": 5,\r\n    \"voterId\": 5,\r\n    \"itemId\": 4\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/rate",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"rate"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "iphone",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"auth": {
@@ -749,7 +926,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjI5MDEyNTk0LCJleHAiOjE2MjkwOTg5OTR9.jeQxNeClQ2jS1KOdUIY5KZPFZMD7LtteqkzAvNbdMOY",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjMzODgxMjEyLCJleHAiOjE2MzM5Njc2MTJ9.rHdPyW_frq7WvzcA_Sz-cIxvMtSSVcCvD5eSBavcEQQ",
 				"type": "string"
 			}
 		]

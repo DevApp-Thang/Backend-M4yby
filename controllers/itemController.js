@@ -440,6 +440,7 @@ module.exports = {
     const items = await Item.findAndCountAll({
       where: query,
       include: [
+        Location,
         {
           model: ItemImage,
           as: "itemimages",
