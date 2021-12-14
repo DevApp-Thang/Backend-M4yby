@@ -10,4 +10,6 @@ module.exports.APIEnum = {
   PRICE_INDICATED: "price-indicated",
   PLACE_OF_RENDERING: "place-of-rendering",
   RATE: "rate",
+  FOLLOW: "follow",
+  REPORT: "report",
 };

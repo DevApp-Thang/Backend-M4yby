@@ -60,6 +60,26 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "AccountId",
         as: "searchHistories",
       });
+
+      this.hasMany(models.Follow, {
+        foreignKey: "SelfId",
+        as: "selfs",
+      });
+
+      this.hasMany(models.Follow, {
+        foreignKey: "FollowId",
+        as: "follows",
+      });
+
+      this.hasMany(models.Report, {
+        foreignKey: "ActorId",
+        as: "actors",
+      });
+
+      this.hasMany(models.Report, {
+        foreignKey: "ReportableId",
+        as: "reportables",
+      });
     }
   }
   Account.init(
@@ -149,6 +169,7 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+      avatar: DataTypes.STRING,
     },
     {
       hooks: {

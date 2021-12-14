@@ -6,6 +6,7 @@ const asyncHandle = require("../middlewares/asyncHandle");
 const { Account, Rate } = require("../models");
 const { getResetPasswordToken } = require("../helpers/resetPassword");
 const sendEmail = require("../helpers/sendMail");
+const uploadFile = require("../helpers/uploadFile");
 const refreshTokens = {};
 
 const sendTokenResponse = (account, statusCode, res) => {
@@ -282,5 +283,23 @@ module.exports = {
       success: true,
       data: "Success",
     });
+  }),
+  uploadAvatar: asyncHandle(async (req, res, next) => {
+    const avatar = req.files?.avatar;
+
+    if (!avatar) {
+      return next(new ErrorResponse("File missing", 400));
+    }
+
+    const currentUser = await Account.findByPk(req.user.id);
+    const filename = `account-${currentUser.id}`;
+
+    // image name is filename with extension
+    const imageName = uploadFile(avatar, filename, next);
+    const imageUrl = `${req.protocol}://${req.get("host")}/images/${imageName}`;
+
+    await currentUser.update({ avatar: imageUrl });
+
+    res.status(200).json({ success: true });
   }),
 };

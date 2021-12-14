@@ -1,3 +1,5 @@
+const ErrorResponse = require("../helpers/ErrorResponse");
+const uploadFile = require("../helpers/uploadFile");
 const asyncHandle = require("../middlewares/asyncHandle");
 const { Product } = require("../models");
 
@@ -34,5 +36,26 @@ module.exports = {
       data: products.rows || products,
       pagination,
     });
+  }),
+  createProduct: asyncHandle(async (req, res, next) => {
+    const { name, subCategoryId } = req.body;
+    const thumbnail = req.files?.thumbnail;
+
+    if (!thumbnail) {
+      return next(new ErrorResponse("File missing", 400));
+    }
+
+    let product = await Product.create({
+      name,
+      SubcategoryId: subCategoryId || req.params.sub_id,
+    });
+
+    const filename = `product-${product.id}`;
+    const imageName = uploadFile(thumbnail, filename, next);
+    const imageUrl = `${req.protocol}://${req.get("host")}/images/${imageName}`;
+
+    await product.update({ thumbnail: imageUrl });
+
+    res.status(201).json({ success: true, data: product });
   }),
 };

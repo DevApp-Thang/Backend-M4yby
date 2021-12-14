@@ -320,13 +320,14 @@ module.exports = {
       timeTo,
       isSold,
       limit,
+      sort,
     } = req.query;
     let { page } = req.query;
     let query = {};
 
     let location;
 
-    if (lng && lat) {
+    if (lng && lat && distance) {
       location = await Location.findAll({
         attributes: ["id"],
         where: sequelize.where(
@@ -435,11 +436,48 @@ module.exports = {
       page = 1;
     }
 
+    let sortArray = [];
+    if (sort) {
+      const sortBy = sort.split(",");
+      sortBy.forEach((field) => {
+        let direction = field.startsWith("-") ? "DESC" : "ASC";
+
+        if (~field.indexOf("price")) {
+          sortArray.push(["price", direction]);
+        }
+
+        if (~field.indexOf("time")) {
+          sortArray.push(["createdAt", direction]);
+        }
+
+        if (~field.indexOf("product")) {
+          sortArray.push(["Product", "name", direction]);
+        }
+
+        if (~field.indexOf("distance") && lng && lat) {
+          sortArray.push([sequelize.col("distance"), direction]);
+        }
+      });
+    }
+
     const limitPerPage = Number(limit) || 10;
 
     const items = await Item.findAndCountAll({
       where: query,
+      attributes: {
+        include: [
+          lat && lng
+            ? [
+                sequelize.literal(
+                  `(SELECT (6371 * acos(cos(radians(${lat})) * cos(radians(lat)) * cos(radians(${lng}) - radians(lng)) + sin(radians(${lat})) * sin(radians(lat)))) FROM Locations WHERE id = LocationId)`
+                ),
+                "distance",
+              ]
+            : null,
+        ],
+      },
       include: [
+        Product,
         Location,
         {
           model: ItemImage,
@@ -449,7 +487,8 @@ module.exports = {
       distinct: true,
       offset: (Number(page) - 1) * limitPerPage,
       limit: limitPerPage,
-      order: [["id", "DESC"]],
+      order: sortArray.length ? sortArray : [["id", "DESC"]],
+      // order: [["id", "DESC"]],
     });
 
     return res.status(200).json({

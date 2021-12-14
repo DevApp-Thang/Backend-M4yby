@@ -1,5 +1,7 @@
+const ErrorResponse = require("../helpers/ErrorResponse");
 const asyncHandle = require("../middlewares/asyncHandle");
 const { Category } = require("../models");
+const uploadFile = require("../helpers/uploadFile");
 
 module.exports = {
   getCategories: asyncHandle(async (req, res, next) => {
@@ -30,5 +32,23 @@ module.exports = {
       data: categories.rows || categories,
       pagination,
     });
+  }),
+  createCategory: asyncHandle(async (req, res, next) => {
+    const { name } = req.body;
+    const thumbnail = req.files?.thumbnail;
+
+    if (!thumbnail) {
+      return next(new ErrorResponse("File missing", 400));
+    }
+
+    let category = await Category.create({ name });
+
+    const filename = `category-${category.id}`;
+    const imageName = uploadFile(thumbnail, filename, next);
+    const imageUrl = `${req.protocol}://${req.get("host")}/images/${imageName}`;
+
+    await category.update({ thumbnail: imageUrl });
+
+    res.status(201).json({ success: true, data: category });
   }),
 };

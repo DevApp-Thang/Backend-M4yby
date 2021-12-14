@@ -9,6 +9,7 @@ const {
   forgotPassword,
   resetPassword,
   validateCode,
+  uploadAvatar,
 } = require("../controllers/authController");
 const { protect } = require("../middlewares/auth");
 
@@ -20,6 +21,7 @@ router.post("/token", sendToken);
 router.get("/me", protect, getMe);
 router.put("/me/updateDetails", protect, updateDetails);
 router.put("/me/updatePassword", protect, updatePassword);
+router.put("/me/avatar/upload", protect, uploadAvatar);
 router.post("/forgotPassword", forgotPassword);
 router.put("/resetPassword/:otpCode", resetPassword);
 router.post("/validateOtp", validateCode);

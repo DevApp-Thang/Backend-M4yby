@@ -1,3 +1,5 @@
+const ErrorResponse = require("../helpers/ErrorResponse");
+const uploadFile = require("../helpers/uploadFile");
 const asyncHandle = require("../middlewares/asyncHandle");
 const { SubCategory } = require("../models");
 
@@ -33,5 +35,26 @@ module.exports = {
       data: subCategories.rows || subCategories,
       pagination,
     });
+  }),
+  createSubCategory: asyncHandle(async (req, res, next) => {
+    const { name, categoryId } = req.body;
+    const thumbnail = req.files?.thumbnail;
+
+    if (!thumbnail) {
+      return next(new ErrorResponse("File missing", 400));
+    }
+
+    let subCategory = await SubCategory.create({
+      name,
+      CategoryId: categoryId || req.params.id,
+    });
+
+    const filename = `sub_category-${subCategory.id}`;
+    const imageName = uploadFile(thumbnail, filename, next);
+    const imageUrl = `${req.protocol}://${req.get("host")}/images/${imageName}`;
+
+    await subCategory.update({ thumbnail: imageUrl });
+
+    res.status(201).json({ success: true, data: subCategory });
   }),
 };
