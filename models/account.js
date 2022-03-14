@@ -173,7 +173,7 @@ module.exports = (sequelize, DataTypes) => {
           }
         },
         beforeUpdate: async (account, options) => {
-          if (account.password) {
+          if (account.changed("password")) {
             const salt = await bcrypt.genSalt(10);
             account.password = await bcrypt.hash(account.password, salt);
           }
