@@ -26,17 +26,16 @@ module.exports = {
       description,
       price,
       ProductId,
-      TypeOfServiceId,
-      PriceIndicatedId,
-      PlaceOfRenderingId,
       allowToCall,
       timeCallFrom,
       timeCallTo,
+      specifications,
     } = req.body;
     const AccountId = req.user.id;
 
     let status = false;
     let code;
+    let item;
 
     while (!status) {
       code = crypto.randomBytes(4).toString("hex");
@@ -59,7 +58,7 @@ module.exports = {
         { transaction }
       );
 
-      const item = await Item.create(
+      item = await Item.create(
         {
           name,
           description,
@@ -69,12 +68,10 @@ module.exports = {
           ProductId,
           LocationId: location.id,
           rating: 5,
-          TypeOfServiceId,
-          PriceIndicatedId,
-          PlaceOfRenderingId,
           allowToCall,
           timeCallFrom,
           timeCallTo,
+          specifications,
         },
         {
           transaction,
@@ -91,9 +88,9 @@ module.exports = {
             continue;
           }
 
-          // if(file.size > process.env.MAX_SIZE_UPLOAD){
-          //   continue;
-          // }
+          if (file.size > process.env.MAX_SIZE_UPLOAD) {
+            continue;
+          }
 
           file.name = `${AccountId}${code}${index}${path.parse(file.name).ext}`;
 
@@ -122,6 +119,7 @@ module.exports = {
       }
 
       await transaction.commit();
+      await item.reload({ include: [Product, Location, "itemimages"] });
 
       return res.status(201).json({
         success: true,
@@ -134,8 +132,16 @@ module.exports = {
   }),
 
   updateItem: asyncHandle(async (req, res, next) => {
-    const { images } = req.files;
-    const { lng, lat, name, description, price, ProductId, isSold } = req.body;
+    const {
+      lng,
+      lat,
+      name,
+      description,
+      price,
+      ProductId,
+      isSold,
+      specifications,
+    } = req.body;
     const AccountId = req.user.id;
     const { itemID } = req.params;
 
@@ -161,7 +167,8 @@ module.exports = {
 
       const fileSuccess = [];
 
-      if (images) {
+      if (req.files?.images) {
+        const { images } = req.files;
         for (let index = 0; index < images.length; index++) {
           const file = images[index];
 
@@ -190,7 +197,7 @@ module.exports = {
         }
       }
 
-      if (images && !fileSuccess) {
+      if (req.files?.images && !fileSuccess) {
         await transaction.rollback();
         return next(new ErrorResponse(`Error when upload image.`, 400));
       }
@@ -218,6 +225,7 @@ module.exports = {
             price,
             ProductId,
             isSold,
+            specifications,
           },
           {
             transaction,
@@ -230,6 +238,7 @@ module.exports = {
             description,
             price,
             ProductId,
+            specifications,
           },
           {
             transaction,
@@ -238,6 +247,7 @@ module.exports = {
       }
 
       await transaction.commit();
+      await item.reload({ include: [Product, Location, "itemimages"] });
 
       return res.status(200).json({
         success: true,
@@ -558,6 +568,7 @@ module.exports = {
       where: {
         id: itemID,
       },
+      include: [Product, Location, "itemimages"],
     });
 
     if (!item) {
@@ -607,12 +618,7 @@ module.exports = {
 
     const items = await Item.findAndCountAll({
       where: query,
-      include: [
-        {
-          model: ItemImage,
-          as: "itemimages",
-        },
-      ],
+      include: [Product, Location, "itemimages"],
       distinct: true,
       offset: (Number(page) - 1) * limitPerPage,
       limit: limitPerPage,
@@ -654,6 +660,8 @@ module.exports = {
     const items = await Item.findAndCountAll({
       where: query,
       include: [
+        Product,
+        Location,
         {
           model: ItemImage,
           as: "itemimages",

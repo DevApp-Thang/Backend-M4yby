@@ -7,6 +7,12 @@ const { Account, Rate } = require("../models");
 const { getResetPasswordToken } = require("../helpers/resetPassword");
 const sendEmail = require("../helpers/sendMail");
 const uploadFile = require("../helpers/uploadFile");
+const axios = require("axios");
+
+var fs = require("fs");
+var request = require("request");
+const { rejects } = require("assert");
+
 const refreshTokens = {};
 
 const sendTokenResponse = (account, statusCode, res) => {
@@ -28,6 +34,14 @@ const sendTokenResponse = (account, statusCode, res) => {
 module.exports = {
   register: asyncHandle(async (req, res, next) => {
     const { name, phone, email, password, gender } = req.body;
+
+    if (!password) {
+      return next(new ErrorResponse("Please enter your password.", 400));
+    }
+
+    if (!gender) {
+      return next(new ErrorResponse("Please enter your gender.", 400));
+    }
 
     const account = await Account.create({
       name,
@@ -301,5 +315,93 @@ module.exports = {
     await currentUser.update({ avatar: imageUrl });
 
     res.status(200).json({ success: true });
+  }),
+
+  loginGoogle: asyncHandle(async (req, res, next) => {
+    const { idToken } = req.body;
+
+    const { data: profile } = await axios.get(
+      `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${idToken}`
+    );
+
+    const oldUser = await Account.findOne({
+      where: { subId: profile.sub, type: "google" },
+    });
+
+    if (oldUser) {
+      return sendTokenResponse(oldUser, 200, res);
+    }
+
+    const { sub, email, name, picture } = profile;
+    const account = await Account.create({
+      subId: sub,
+      email,
+      name,
+      avatar: picture,
+      rating: 5,
+      type: "google",
+    });
+
+    return sendTokenResponse(account, 200, res);
+  }),
+
+  loginFacebook: asyncHandle(async (req, res, next) => {
+    const { accessToken } = req.body;
+
+    const { data: profile } = await axios.get(
+      `https://graph.facebook.com/v3.1/me?fields=id,name,email,gender,location,picture.type(large)&access_token=${accessToken}`
+    );
+
+    if (!profile) {
+      return next(new ErrorResponse("not found", 404));
+    }
+
+    const {
+      email,
+      id: subId,
+      name,
+      location: { name: address },
+      picture: {
+        data: { url: pictureUrl },
+      },
+    } = profile;
+
+    let user;
+    user = await Account.findOne({ where: { type: "facebook", subId } });
+
+    if (!user) {
+      user = await Account.create({
+        email,
+        subId,
+        type: "facebook",
+        address,
+        name,
+        rating: 5,
+      });
+    }
+
+    const filename = `account-${user.id}.png`;
+
+    const download = (uri, filename, callback) =>
+      new Promise((resolve, rejects) => {
+        {
+          request.head(uri, function (err, res, body) {
+            request(uri)
+              .pipe(fs.createWriteStream(filename))
+              .on("close", () => resolve(callback()));
+          });
+        }
+      });
+
+    let imageUrl;
+    await download(pictureUrl, `public/images/${filename}`, function () {
+      imageUrl = `${req.protocol}://${req.get("host")}/images/${filename}`;
+      console.log("done");
+    });
+
+    user.avatar = imageUrl;
+    await user.save();
+
+    return sendTokenResponse(user, 200, res);
   }),
 };

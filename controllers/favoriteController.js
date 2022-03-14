@@ -1,6 +1,6 @@
 const asyncHandle = require("../middlewares/asyncHandle");
 const ErrorResponse = require("../helpers/ErrorResponse");
-const { Favorite, Item, ItemImage } = require("../models");
+const { Favorite, Item, ItemImage, Product, Location } = require("../models");
 
 module.exports = {
   getFavorites: asyncHandle(async (req, res, next) => {
@@ -20,6 +20,8 @@ module.exports = {
         {
           model: Item,
           include: [
+            Product,
+            Location,
             {
               model: ItemImage,
               as: "itemimages",
@@ -45,7 +47,16 @@ module.exports = {
   addToFavorite: asyncHandle(async (req, res, next) => {
     const { itemId } = req.body;
 
-    const item = await Item.findByPk(itemId);
+    const item = await Item.findByPk(itemId, {
+      include: [
+        Product,
+        Location,
+        {
+          model: ItemImage,
+          as: "itemimages",
+        },
+      ],
+    });
 
     if (!item) {
       return next(

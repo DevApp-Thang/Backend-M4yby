@@ -119,11 +119,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       password: {
         type: DataTypes.STRING,
-        allowNull: false,
         validate: {
-          notNull: {
-            msg: "Please enter your password.",
-          },
           min: {
             args: 6,
             msg: "Your password enter shorter than 6 character.",
@@ -132,11 +128,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       gender: {
         type: DataTypes.STRING,
-        allowNull: false,
         validate: {
-          notNull: {
-            msg: "Please enter your gender.",
-          },
           isIn: {
             args: [["male", "female", "other"]],
             msg: "Please enter your gender.",
@@ -170,16 +162,21 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       avatar: DataTypes.STRING,
+      subId: DataTypes.STRING,
     },
     {
       hooks: {
         beforeCreate: async (account, options) => {
-          const salt = await bcrypt.genSalt(10);
-          account.password = await bcrypt.hash(account.password, salt);
+          if (account.password) {
+            const salt = await bcrypt.genSalt(10);
+            account.password = await bcrypt.hash(account.password, salt);
+          }
         },
         beforeUpdate: async (account, options) => {
-          const salt = await bcrypt.genSalt(10);
-          account.password = await bcrypt.hash(account.password, salt);
+          if (account.password) {
+            const salt = await bcrypt.genSalt(10);
+            account.password = await bcrypt.hash(account.password, salt);
+          }
         },
       },
       sequelize,

@@ -7,7 +7,7 @@ module.exports = {
   getCategories: asyncHandle(async (req, res, next) => {
     const { page, limit, getAll } = req.query;
     const query = {
-      attributes: ["id", "name"],
+      attributes: ["id", "name", "thumbnail"],
       order: [["id", "DESC"]],
     };
 

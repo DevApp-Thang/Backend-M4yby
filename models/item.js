@@ -23,21 +23,6 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "cascade",
       });
 
-      this.belongsTo(models.PlaceOfRendering, {
-        foreignKey: "PlaceOfRenderingId",
-        onDelete: "cascade",
-      });
-
-      this.belongsTo(models.PriceIndicated, {
-        foreignKey: "PriceIndicatedId",
-        onDelete: "cascade",
-      });
-
-      this.belongsTo(models.TypeOfService, {
-        foreignKey: "TypeOfServiceId",
-        onDelete: "cascade",
-      });
-
       this.hasMany(models.Rate, {
         foreignKey: "itemId",
         as: "rates",
@@ -118,6 +103,9 @@ module.exports = (sequelize, DataTypes) => {
             msg: "Please enter rating from 1 to 5.",
           },
         },
+      },
+      specifications: {
+        type: DataTypes.JSON,
       },
     },
     {

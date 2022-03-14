@@ -12,4 +12,5 @@ module.exports.APIEnum = {
   RATE: "rate",
   FOLLOW: "follow",
   REPORT: "report",
+  SPECIFICATION: "specification",
 };

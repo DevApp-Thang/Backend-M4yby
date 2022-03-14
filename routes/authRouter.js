@@ -10,12 +10,16 @@ const {
   resetPassword,
   validateCode,
   uploadAvatar,
+  loginGoogle,
+  loginFacebook,
 } = require("../controllers/authController");
 const { protect } = require("../middlewares/auth");
 
 const router = express.Router();
 
 router.post("/register", register);
+router.post("/login/google", loginGoogle);
+router.post("/login/facebook", loginFacebook);
 router.post("/login", login);
 router.post("/token", sendToken);
 router.get("/me", protect, getMe);
