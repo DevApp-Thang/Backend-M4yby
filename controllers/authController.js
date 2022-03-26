@@ -356,15 +356,7 @@ module.exports = {
       return next(new ErrorResponse("not found", 404));
     }
 
-    const {
-      email,
-      id: subId,
-      name,
-      location: { name: address },
-      picture: {
-        data: { url: pictureUrl },
-      },
-    } = profile;
+    const { email, id: subId, name, picture } = profile;
 
     let user;
     user = await Account.findOne({ where: { type: "facebook", subId } });
@@ -374,33 +366,35 @@ module.exports = {
         email,
         subId,
         type: "facebook",
-        address,
         name,
         rating: 5,
       });
     }
 
-    const filename = `account-${user.id}.png`;
+    if (picture?.data?.url) {
+      const pictureUrl = picture.data.url;
+      const filename = `account-${user.id}.png`;
 
-    const download = (uri, filename, callback) =>
-      new Promise((resolve, rejects) => {
-        {
-          request.head(uri, function (err, res, body) {
-            request(uri)
-              .pipe(fs.createWriteStream(filename))
-              .on("close", () => resolve(callback()));
-          });
-        }
+      const download = (uri, filename, callback) =>
+        new Promise((resolve, rejects) => {
+          {
+            request.head(uri, function (err, res, body) {
+              request(uri)
+                .pipe(fs.createWriteStream(filename))
+                .on("close", () => resolve(callback()));
+            });
+          }
+        });
+
+      let imageUrl;
+      await download(pictureUrl, `public/images/${filename}`, function () {
+        imageUrl = `${req.protocol}://${req.get("host")}/images/${filename}`;
+        console.log("done");
       });
 
-    let imageUrl;
-    await download(pictureUrl, `public/images/${filename}`, function () {
-      imageUrl = `${req.protocol}://${req.get("host")}/images/${filename}`;
-      console.log("done");
-    });
-
-    user.avatar = imageUrl;
-    await user.save();
+      user.avatar = imageUrl;
+      await user.save();
+    }
 
     return sendTokenResponse(user, 200, res);
   }),
