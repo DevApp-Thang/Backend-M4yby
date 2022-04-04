@@ -14,7 +14,11 @@ module.exports = {
       const value = specification.specificationDetails.map(
         (detail) => detail.value
       );
-      return { key: specification.name, value };
+      return {
+        key: specification.name,
+        value,
+        category: specification.category,
+      };
     });
 
     res

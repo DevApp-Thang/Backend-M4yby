@@ -165,6 +165,13 @@ module.exports = (sequelize, DataTypes) => {
       subId: DataTypes.STRING,
     },
     {
+      scopes: {
+        forSeller: {
+          attributes: {
+            exclude: ["subId", "otpCode", "otpCodeExpired", "type", "password"],
+          },
+        },
+      },
       hooks: {
         beforeCreate: async (account, options) => {
           if (account.password) {

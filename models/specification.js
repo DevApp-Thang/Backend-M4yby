@@ -31,6 +31,16 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+      category: {
+        type: DataTypes.STRING,
+        defaultValue: "custom",
+        validate: {
+          isIn: {
+            args: [["custom", "optional", "require"]],
+            msg: "This type is not supported",
+          },
+        },
+      },
     },
     {
       sequelize,

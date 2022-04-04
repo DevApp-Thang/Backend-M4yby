@@ -106,6 +106,22 @@ module.exports = (sequelize, DataTypes) => {
       },
       specifications: {
         type: DataTypes.JSON,
+        validate: {
+          isJSON(value) {
+            try {
+              JSON.parse(value);
+            } catch (error) {
+              throw new Error("Specifications must be a JSON");
+            }
+          },
+        },
+        get: function () {
+          return JSON.parse(this.getDataValue("specifications"));
+        },
+      },
+      view: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
       },
     },
     {

@@ -13,4 +13,5 @@ module.exports.APIEnum = {
   FOLLOW: "follow",
   REPORT: "report",
   SPECIFICATION: "specification",
+  SELLER: "seller",
 };

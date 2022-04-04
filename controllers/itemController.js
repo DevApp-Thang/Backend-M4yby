@@ -14,6 +14,7 @@ const {
   Favorite,
 } = require("../models");
 const ErrorResponse = require("../helpers/ErrorResponse");
+const random = require("../helpers/random");
 
 module.exports = {
   createItem: asyncHandle(async (req, res, next) => {
@@ -389,7 +390,7 @@ module.exports = {
       query = {
         ...query,
         createdAt: {
-          [Op.gte]: timeFrom + " 00:00:00",
+          [Op.gte]: new Date(timeFrom + " 00:00:00 UTC+0"),
         },
       };
     }
@@ -398,7 +399,8 @@ module.exports = {
       query = {
         ...query,
         createdAt: {
-          [Op.lte]: timeTo + " 23:59:59",
+          ...query.createdAt,
+          [Op.lte]: new Date(timeTo + " 23:59:59 UTC+0"),
         },
       };
     }
@@ -549,9 +551,20 @@ module.exports = {
       isFavorite = false;
     }
 
+    let increView = 1;
+    if (item.view < 1000) {
+      increView = random(1, 9);
+    }
+
+    await item.increment("view", { by: increView });
+
+    const like = await Favorite.count({ where: { ItemId: itemID } });
+
     const dataResponse = {
       ...item.dataValues,
+      specifications: item.specifications,
       isFavorite,
+      like,
     };
 
     return res.status(200).json({
