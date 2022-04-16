@@ -43,6 +43,10 @@ module.exports = {
       return next(new ErrorResponse("Please enter your gender.", 400));
     }
 
+    if (!email) {
+      return next(new ErrorResponse("Please enter your email.", 400));
+    }
+
     const account = await Account.create({
       name,
       phone,

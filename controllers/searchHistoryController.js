@@ -17,6 +17,9 @@ module.exports = {
       offset: (Number(page) - 1) * limitPerPage,
       limit: limitPerPage,
       order: [["id", "DESC"]],
+      where: {
+        AccountId: req.user.id,
+      },
     });
 
     return res.status(200).json({
