@@ -1,1030 +1,1298 @@
 {
-  "info": {
-    "_postman_id": "e26dd2fe-eda8-4ea7-89ab-474bd4797942",
-    "name": "M4yby",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-  },
-  "item": [
-    {
-      "name": "Register",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"name\": \"Đông\",\r\n    \"phone\": \"0123456789\",\r\n    \"email\": \"nguyenbadong01@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"gender\": \"male\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{url}}/api/auth/register",
-          "host": ["{{url}}"],
-          "path": ["api", "auth", "register"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Login local",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"email\": \"nguyenbadong01@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{url}}/api/auth/login",
-          "host": ["{{url}}"],
-          "path": ["api", "auth", "login"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get token",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjMzNDQ3Nzk4LCJleHAiOjE2MzM1MzQxOTh9.AcrmJtB_Fb6i0ho_lcsRg19QMe5kpWJe9zK2K4qiuak\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{url}}/api/auth/token",
-          "host": ["{{url}}"],
-          "path": ["api", "auth", "token"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get me",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{url}}/api/auth/me",
-          "host": ["{{url}}"],
-          "path": ["api", "auth", "me"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Update current user details",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIxNjIxMDgwLCJleHAiOjE2MjE3MDc0ODB9.1utpjlqTRV3V7M0fa7aX0euIUURJ8aDEmNQDHewbT18",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "PUT",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"address\": \"Hải Phòng\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{url}}/api/auth/me/updateDetails",
-          "host": ["{{url}}"],
-          "path": ["api", "auth", "me", "updateDetails"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Change password",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIxNjIxOTk5LCJleHAiOjE2MjE3MDgzOTl9.uTMVT5HZCqzsUGDMtBho1NaC4Wotv46Oae6Jg8sEM9w",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "PUT",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{ \"currentPassword\": \"123456\", \"newPassword\": \"12345\" }",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{url}}/api/auth/me/updatePassword",
-          "host": ["{{url}}"],
-          "path": ["api", "auth", "me", "updatePassword"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Forgot password",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"email\": \"hdkhanhit@gmail.com\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{url}}/api/auth/forgotPassword",
-          "host": ["{{url}}"],
-          "path": ["api", "auth", "forgotPassword"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Validate OTP",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"otpCode\": \"178830\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{url}}/api/auth/validateOtp",
-          "host": ["{{url}}"],
-          "path": ["api", "auth", "validateOtp"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Reset password",
-      "request": {
-        "method": "PUT",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"password\": \"12345\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{url}}/api/auth/resetPassword/178830",
-          "host": ["{{url}}"],
-          "path": ["api", "auth", "resetPassword", "178830"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Create item",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "formdata",
-          "formdata": [
-            {
-              "key": "lng",
-              "value": "70",
-              "type": "text"
-            },
-            {
-              "key": "lat",
-              "value": "70",
-              "type": "text"
-            },
-            {
-              "key": "name",
-              "value": "IPhone 12/32GB",
-              "type": "text"
-            },
-            {
-              "key": "description",
-              "value": "Vẫn còn rất mới, vừa dùng được 1 tuần",
-              "type": "text"
-            },
-            {
-              "key": "price",
-              "value": "100000",
-              "type": "text"
-            },
-            {
-              "key": "ProductId",
-              "value": "1",
-              "type": "text"
-            },
-            {
-              "key": "TypeOfServiceId",
-              "value": "4",
-              "type": "text",
-              "disabled": true
-            },
-            {
-              "key": "PriceIndicatedId",
-              "value": "2",
-              "type": "text",
-              "disabled": true
-            },
-            {
-              "key": "PlaceOfRenderingId",
-              "value": "4",
-              "type": "text",
-              "disabled": true
-            },
-            {
-              "key": "allowToCall",
-              "value": "false",
-              "type": "text"
-            },
-            {
-              "key": "timeCallFrom",
-              "value": "20:00",
-              "type": "text"
-            },
-            {
-              "key": "timeCallTo",
-              "value": "21:00",
-              "type": "text"
-            },
-            {
-              "key": "images",
-              "type": "file",
-              "src": [
-                "/C:/Users/ADMIN/Downloads/12-d0037a9e-b807-4367-ad87-c7e193668497-db3e06e1-9d16-4adb-aa8a-e2f31ca41db2.webp",
-                "/C:/Users/ADMIN/Downloads/iphone-12-pro-silver-600x600.jpg"
-              ]
-            },
-            {
-              "key": "images",
-              "type": "file",
-              "src": "/C:/Users/DuyKhanh/Pictures/70c6461c88417f44ddb9926577eb3fb4.jpg",
-              "disabled": true
-            },
-            {
-              "key": "specifications",
-              "value": "[{ key: \"RAM\", value: \"32GB\"  }]",
-              "type": "text"
-            }
-          ]
-        },
-        "url": {
-          "raw": "{{url}}/api/item",
-          "host": ["{{url}}"],
-          "path": ["api", "item"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Update item",
-      "request": {
-        "method": "PUT",
-        "header": [],
-        "body": {
-          "mode": "formdata",
-          "formdata": [
-            {
-              "key": "name",
-              "value": "iphone 6 cũ lắm rồi",
-              "type": "text",
-              "disabled": true
-            },
-            {
-              "key": "description",
-              "value": "Điện thoại cũ rồi muốn bán đi được không",
-              "type": "text",
-              "disabled": true
-            },
-            {
-              "key": "price",
-              "value": "500000",
-              "type": "text",
-              "disabled": true
-            },
-            {
-              "key": "ProductId",
-              "value": "2",
-              "type": "text",
-              "disabled": true
-            },
-            {
-              "key": "isSold",
-              "value": "true",
-              "type": "text",
-              "disabled": true
-            },
-            {
-              "key": "lng",
-              "value": "70",
-              "type": "text",
-              "disabled": true
-            },
-            {
-              "key": "lat",
-              "value": "70",
-              "type": "text",
-              "disabled": true
-            },
-            {
-              "key": "specifications",
-              "value": "[{key: \"RAM\", value: \"32GB\"}, {key: \"ROM\", value: \"512GB\"}]",
-              "type": "text"
-            }
-          ]
-        },
-        "url": {
-          "raw": "{{url}}/api/item/94",
-          "host": ["{{url}}"],
-          "path": ["api", "item", "94"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Update status item",
-      "request": {
-        "method": "PUT",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"isSold\": false\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{url}}/api/item/4/status",
-          "host": ["{{url}}"],
-          "path": ["api", "item", "4", "status"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Delete item",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIxODY2MDc4LCJleHAiOjE2MjE5NTI0Nzh9.kUjTFpKqVT-QNUxANQBIheQ3TF4aL8XN6VsTYkZH2cg",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:6969/api/item/1",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "6969",
-          "path": ["api", "item", "1"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get item detail",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{url}}/api/item/98",
-          "host": ["{{url}}"],
-          "path": ["api", "item", "98"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Search item",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{url}}/api/item?lng=90&lat=70&page=1",
-          "host": ["{{url}}"],
-          "path": ["api", "item"],
-          "query": [
-            {
-              "key": "lng",
-              "value": "90"
-            },
-            {
-              "key": "lat",
-              "value": "70"
-            },
-            {
-              "key": "distance",
-              "value": "3000",
-              "disabled": true
-            },
-            {
-              "key": "ProductId",
-              "value": "2",
-              "disabled": true
-            },
-            {
-              "key": "priceFrom",
-              "value": "1000001",
-              "disabled": true
-            },
-            {
-              "key": "priceTo",
-              "value": "1000000",
-              "disabled": true
-            },
-            {
-              "key": "timeFrom",
-              "value": "2021-05-22",
-              "disabled": true
-            },
-            {
-              "key": "timeTo",
-              "value": "2021-05-25",
-              "disabled": true
-            },
-            {
-              "key": "name",
-              "value": "lắm",
-              "disabled": true
-            },
-            {
-              "key": "isSold",
-              "value": "false",
-              "disabled": true
-            },
-            {
-              "key": "page",
-              "value": "1"
-            },
-            {
-              "key": "limit",
-              "value": "10",
-              "disabled": true
-            },
-            {
-              "key": "sort",
-              "value": "-price,-time,product,distance",
-              "disabled": true
-            }
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get list item sold",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{url}}/api/item/sold/list",
-          "host": ["{{url}}"],
-          "path": ["api", "item", "sold", "list"],
-          "query": [
-            {
-              "key": "name",
-              "value": "iphone",
-              "disabled": true
-            },
-            {
-              "key": "page",
-              "value": "1",
-              "disabled": true
-            }
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get list category",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{url}}/api/category",
-          "host": ["{{url}}"],
-          "path": ["api", "category"],
-          "query": [
-            {
-              "key": "getAll",
-              "value": "0",
-              "disabled": true
-            },
-            {
-              "key": "page",
-              "value": "1",
-              "disabled": true
-            },
-            {
-              "key": "limit",
-              "value": "10",
-              "disabled": true
-            }
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get list sub category",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{url}}/api/category/3/sub-category",
-          "host": ["{{url}}"],
-          "path": ["api", "category", "3", "sub-category"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Delete history",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "{{url}}/api/search-history/2",
-          "host": ["{{url}}"],
-          "path": ["api", "search-history", "2"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get list search history",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{url}}/api/search-history",
-          "host": ["{{url}}"],
-          "path": ["api", "search-history"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Add to list favorite",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"itemId\": 91\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{url}}/api/favorite",
-          "host": ["{{url}}"],
-          "path": ["api", "favorite"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Delete item in favorite",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "{{url}}/api/favorite/5",
-          "host": ["{{url}}"],
-          "path": ["api", "favorite", "5"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get list favorite item",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{url}}/api/favorite",
-          "host": ["{{url}}"],
-          "path": ["api", "favorite"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get list product",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{url}}/api/sub-category/2/product",
-          "host": ["{{url}}"],
-          "path": ["api", "sub-category", "2", "product"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get list type of service",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{url}}/api/type-of-service",
-          "host": ["{{url}}"],
-          "path": ["api", "type-of-service"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get list price indicated",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{url}}/api/price-indicated",
-          "host": ["{{url}}"],
-          "path": ["api", "price-indicated"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get list place of rendering",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{url}}/api/place-of-rendering",
-          "host": ["{{url}}"],
-          "path": ["api", "place-of-rendering"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get list item by me",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{url}}/api/item/me/list",
-          "host": ["{{url}}"],
-          "path": ["api", "item", "me", "list"],
-          "query": [
-            {
-              "key": "name",
-              "value": "iphone",
-              "disabled": true
-            },
-            {
-              "key": "page",
-              "value": "1",
-              "disabled": true
-            }
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Submit rate",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"value\": 5,\r\n    \"description\": \"đánh giá\",\r\n    \"sellerId\": 5,\r\n    \"voterId\": 5,\r\n    \"itemId\": 4\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{url}}/api/rate",
-          "host": ["{{url}}"],
-          "path": ["api", "rate"],
-          "query": [
-            {
-              "key": "name",
-              "value": "iphone",
-              "disabled": true
-            },
-            {
-              "key": "page",
-              "value": "1",
-              "disabled": true
-            }
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Add follow",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"followId\": 1\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{url}}/api/follow",
-          "host": ["{{url}}"],
-          "path": ["api", "follow"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Unfollow",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "{{url}}/api/follow/3",
-          "host": ["{{url}}"],
-          "path": ["api", "follow", "3"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Create report",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"reportableId\": 2,\r\n    \"content\": \"copyright\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{url}}/api/report",
-          "host": ["{{url}}"],
-          "path": ["api", "report"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Upload avatar",
-      "request": {
-        "method": "PUT",
-        "header": [],
-        "body": {
-          "mode": "formdata",
-          "formdata": [
-            {
-              "key": "avatar",
-              "type": "file",
-              "src": "/C:/Users/ADMIN/Downloads/doan.jpg"
-            }
-          ]
-        },
-        "url": {
-          "raw": "{{url}}/api/auth/me/avatar/upload",
-          "host": ["{{url}}"],
-          "path": ["api", "auth", "me", "avatar", "upload"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Create category",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "formdata",
-          "formdata": [
-            {
-              "key": "name",
-              "value": "Đồng hồ",
-              "type": "text"
-            },
-            {
-              "key": "thumbnail",
-              "type": "file",
-              "src": "/D:/Projects/Backend-M4yby/public/images/category-6.jpg"
-            }
-          ]
-        },
-        "url": {
-          "raw": "{{url}}/api/category",
-          "host": ["{{url}}"],
-          "path": ["api", "category"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Create sub category",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "formdata",
-          "formdata": [
-            {
-              "key": "name",
-              "value": "Vietjet",
-              "type": "text"
-            },
-            {
-              "key": "thumbnail",
-              "type": "file",
-              "src": "/C:/Users/ADMIN/Downloads/huong-dan-hoan-ve-vietjet-do-covid.jpg"
-            },
-            {
-              "key": "categoryId",
-              "value": "5",
-              "type": "text"
-            }
-          ]
-        },
-        "url": {
-          "raw": "{{url}}/api/sub-category",
-          "host": ["{{url}}"],
-          "path": ["api", "sub-category"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Create product",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "formdata",
-          "formdata": [
-            {
-              "key": "name",
-              "value": "Airbus A380",
-              "type": "text"
-            },
-            {
-              "key": "thumbnail",
-              "type": "file",
-              "src": "/C:/Users/ADMIN/Downloads/1_1-1.jpg"
-            },
-            {
-              "key": "subCategoryId",
-              "value": "5",
-              "type": "text"
-            }
-          ]
-        },
-        "url": {
-          "raw": "{{url}}/api/product",
-          "host": ["{{url}}"],
-          "path": ["api", "product"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get specifications by product",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{url}}/api/product/1/specification",
-          "host": ["{{url}}"],
-          "path": ["api", "product", "1", "specification"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Login with google",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"idToken\": \"eyJhbGciOiJSUzI1NiIsImtpZCI6ImQ2M2RiZTczYWFkODhjODU0ZGUwZDhkNmMwMTRjMzZkYzI1YzQyOTIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI0MDc0MDg3MTgxOTIuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI0MDc0MDg3MTgxOTIuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMTY0MDQzNTQxODEzMjA1ODIxNjQiLCJlbWFpbCI6Im5ndXllbmJhZG9uZzIwMUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IkFDTmpIb3ZBTjZlSlhtSUdEb2NsZFEiLCJuYW1lIjoixJDDtG5nIE5ndXnhu4VuIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FBVFhBSnhiNUtJNEFKN19kdDFFQVZmYmU3SnhKTFZ3ZkFSWEh0dGN5dmJ0PXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6IsSQw7RuZyIsImZhbWlseV9uYW1lIjoiTmd1eeG7hW4iLCJsb2NhbGUiOiJ2aSIsImlhdCI6MTY0Njk2OTY5OSwiZXhwIjoxNjQ2OTczMjk5fQ.eqWtLu1B_8wMCxrBHI_eo-zvGeaeysP_GocHu04_vgco5GGAzDlIeccWL_J1_AZYJAHJNXKQjPF8Cv_6n6I42A0reqVUge06WxrLI6CdZxzfNZwR1FHzbNuIeG7ipEypRqdrT26oebh0Ivq3jk-CZw2r12Yse5-GefKmTBtdlJsSGF1HIDcGiKtMTYttvuCCu-unwzA5w6rB-jcdycRMDfE0PKjfFBwUWtVjV90i3Rb1zNZuhUorwOQ6F_y3niGyCk66QVTOb6Zm6xpQ48xf_Ek1MAlHQ5dDcSghJgj7JRFuWmTO9D2E5AT2Of8kBX1TFsFqAgxiaOC0NXvdHKptvw\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{url}}/api/auth/login/google",
-          "host": ["{{url}}"],
-          "path": ["api", "auth", "login", "google"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Login with Facebook",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n    \"accessToken\": \"EAAEGsZCFwxbkBAJ3bHXq2HnsNMqNtDIsHAQMnbUZAJJAs2NC9SPaUhdcW4mVaXVyYzpq4Wh5nIXqKTyJy2M6WfeROinpfH0BUZBZC6c5h2VGeZC81ocmjazzAFA9Cqdmk5QC9ElZCN6gBKVpkJPzsiYIIV9nPfYwdXEepffmqDxuYUShpZAb9abZCHH0sCWpPtRb3aiJHCdiGGnIJqqnKBj3I548v16oAqRyqG9CZAZBH0WZCYSxMtDQZAiY\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{url}}/api/auth/login/facebook",
-          "host": ["{{url}}"],
-          "path": ["api", "auth", "login", "facebook"]
-        }
-      },
-      "response": []
-    }
-  ],
-  "auth": {
-    "type": "bearer",
-    "bearer": [
-      {
-        "key": "token",
-        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDAsImlhdCI6MTY0NzI2MDkyMSwiZXhwIjoxNjQ3MzQ3MzIxfQ.gOYkcMNFfnsD7-azwQUuFSo6x2bwjWq_YD7uRCdMJwU",
-        "type": "string"
-      }
-    ]
-  },
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "exec": [""]
-      }
-    },
-    {
-      "listen": "test",
-      "script": {
-        "type": "text/javascript",
-        "exec": [""]
-      }
-    }
-  ]
+	"info": {
+		"_postman_id": "e26dd2fe-eda8-4ea7-89ab-474bd4797942",
+		"name": "M4yby",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Đông\",\r\n    \"phone\": \"0123456789\",\r\n    \"email\": \"nguyenbadong01@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"gender\": \"male\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/auth/register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login local",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"nguyenbadong01@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/auth/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjMzNDQ3Nzk4LCJleHAiOjE2MzM1MzQxOTh9.AcrmJtB_Fb6i0ho_lcsRg19QMe5kpWJe9zK2K4qiuak\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/auth/token",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get me",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/auth/me",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update current user details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIxNjIxMDgwLCJleHAiOjE2MjE3MDc0ODB9.1utpjlqTRV3V7M0fa7aX0euIUURJ8aDEmNQDHewbT18",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"address\": \"Hải Phòng\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/auth/me/updateDetails",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"me",
+						"updateDetails"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change password",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIxNjIxOTk5LCJleHAiOjE2MjE3MDgzOTl9.uTMVT5HZCqzsUGDMtBho1NaC4Wotv46Oae6Jg8sEM9w",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"currentPassword\": \"123456\", \"newPassword\": \"12345\" }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/auth/me/updatePassword",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"me",
+						"updatePassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Forgot password",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"nguyenbadong01@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/auth/forgotPassword",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"forgotPassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validate OTP",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"otpCode\": \"178830\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/auth/validateOtp",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"validateOtp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reset password",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password\": \"12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/auth/resetPassword/178830",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"resetPassword",
+						"178830"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create item",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "lng",
+							"value": "70",
+							"type": "text"
+						},
+						{
+							"key": "lat",
+							"value": "70",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "IPhone 12/32GB",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Vẫn còn rất mới, vừa dùng được 1 tuần",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "100000",
+							"type": "text"
+						},
+						{
+							"key": "ProductId",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "TypeOfServiceId",
+							"value": "4",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "PriceIndicatedId",
+							"value": "2",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "PlaceOfRenderingId",
+							"value": "4",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "allowToCall",
+							"value": "false",
+							"type": "text"
+						},
+						{
+							"key": "timeCallFrom",
+							"value": "20:00",
+							"type": "text"
+						},
+						{
+							"key": "timeCallTo",
+							"value": "21:00",
+							"type": "text"
+						},
+						{
+							"key": "images",
+							"type": "file",
+							"src": [
+								"/C:/Users/ADMIN/Downloads/277467766_117465640903156_1657978500507512173_n.jpg",
+								"/C:/Users/ADMIN/Downloads/277680595_370380164981672_6403026527728049872_n.jpg"
+							]
+						},
+						{
+							"key": "images",
+							"type": "file",
+							"src": "/C:/Users/DuyKhanh/Pictures/70c6461c88417f44ddb9926577eb3fb4.jpg",
+							"disabled": true
+						},
+						{
+							"key": "specifications",
+							"value": "[{ \"key\": \"RAM\", \"value\": \"32GB\"  }]",
+							"type": "text"
+						},
+						{
+							"key": "address",
+							"value": "Cầu Diễn - Hà Nội",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/api/item",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update item",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "iphone 6 cũ lắm rồi",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "description",
+							"value": "Điện thoại cũ rồi muốn bán đi được không",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "price",
+							"value": "500000",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "ProductId",
+							"value": "2",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "isSold",
+							"value": "true",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "lng",
+							"value": "70",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "lat",
+							"value": "70",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "specifications",
+							"value": "[{key: \"RAM\", value: \"32GB\"}, {key: \"ROM\", value: \"512GB\"}]",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "address",
+							"value": "Từ Liêm - Hà Nội",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/api/item/112",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"item",
+						"112"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update status item",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"isSold\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/item/4/status",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"item",
+						"4",
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete item",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjIxODY2MDc4LCJleHAiOjE2MjE5NTI0Nzh9.kUjTFpKqVT-QNUxANQBIheQ3TF4aL8XN6VsTYkZH2cg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:6969/api/item/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6969",
+					"path": [
+						"api",
+						"item",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get item detail",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/item/112",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"item",
+						"112"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search item",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/item?timeFrom=2022-03-28&timeTo=2022-04-01&page=1&distance=30000&lat=21.0479694&lng=105.7469918",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"item"
+					],
+					"query": [
+						{
+							"key": "distance",
+							"value": "3000",
+							"disabled": true
+						},
+						{
+							"key": "ProductId",
+							"value": "2",
+							"disabled": true
+						},
+						{
+							"key": "priceFrom",
+							"value": "1000001",
+							"disabled": true
+						},
+						{
+							"key": "priceTo",
+							"value": "1000000",
+							"disabled": true
+						},
+						{
+							"key": "timeFrom",
+							"value": "2022-03-28"
+						},
+						{
+							"key": "timeTo",
+							"value": "2022-04-01"
+						},
+						{
+							"key": "name",
+							"value": "lắm",
+							"disabled": true
+						},
+						{
+							"key": "isSold",
+							"value": "false",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "10",
+							"disabled": true
+						},
+						{
+							"key": "sort",
+							"value": "-price,-time,product,distance",
+							"disabled": true
+						},
+						{
+							"key": "distance",
+							"value": "30000"
+						},
+						{
+							"key": "lat",
+							"value": "21.0479694"
+						},
+						{
+							"key": "lng",
+							"value": "105.7469918"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get list item sold",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/item/sold/list",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"item",
+						"sold",
+						"list"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "iphone",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get list category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/category",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"category"
+					],
+					"query": [
+						{
+							"key": "getAll",
+							"value": "0",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "10",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get list sub category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/category/3/sub-category",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"category",
+						"3",
+						"sub-category"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete history",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/search-history/2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"search-history",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get list search history",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/search-history",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"search-history"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add to list favorite",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"itemId\": 99\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/favorite",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"favorite"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete item in favorite",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/favorite/5",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"favorite",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get list favorite item",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/favorite",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"favorite"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get list product",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/sub-category/2/product",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"sub-category",
+						"2",
+						"product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get list type of service",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/type-of-service",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"type-of-service"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get list price indicated",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/price-indicated",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"price-indicated"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get list place of rendering",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/place-of-rendering",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"place-of-rendering"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get list item by me",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/item/me/list",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"item",
+						"me",
+						"list"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "iphone",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit rate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"value\": 5,\r\n    \"description\": \"đánh giá\",\r\n    \"sellerId\": 5,\r\n    \"voterId\": 5,\r\n    \"itemId\": 4\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/rate",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"rate"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "iphone",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add follow",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"followId\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/follow",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"follow"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unfollow",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/follow/3",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"follow",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create report",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"reportableId\": 2,\r\n    \"content\": \"copyright\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/report",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"report"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload avatar",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "avatar",
+							"type": "file",
+							"src": "/C:/Users/ADMIN/Downloads/doan.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/api/auth/me/avatar/upload",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"me",
+						"avatar",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create category",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Đồng hồ",
+							"type": "text"
+						},
+						{
+							"key": "thumbnail",
+							"type": "file",
+							"src": "/D:/Projects/Backend-M4yby/public/images/category-6.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/api/category",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"category"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create sub category",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Vietjet",
+							"type": "text"
+						},
+						{
+							"key": "thumbnail",
+							"type": "file",
+							"src": "/C:/Users/ADMIN/Downloads/huong-dan-hoan-ve-vietjet-do-covid.jpg"
+						},
+						{
+							"key": "categoryId",
+							"value": "5",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/api/sub-category",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"sub-category"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create product",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Airbus A380",
+							"type": "text"
+						},
+						{
+							"key": "thumbnail",
+							"type": "file",
+							"src": "/C:/Users/ADMIN/Downloads/1_1-1.jpg"
+						},
+						{
+							"key": "subCategoryId",
+							"value": "5",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/api/product",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get specifications by product",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/product/1/specification",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"product",
+						"1",
+						"specification"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login with google",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"idToken\": \"eyJhbGciOiJSUzI1NiIsImtpZCI6IjcyOTE4OTQ1MGQ0OTAyODU3MDQyNTI2NmYwM2U3MzdmNDVhZjI5MzIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI0MDc0MDg3MTgxOTIuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI0MDc0MDg3MTgxOTIuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMTY0MDQzNTQxODEzMjA1ODIxNjQiLCJlbWFpbCI6Im5ndXllbmJhZG9uZzIwMUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IkJEaWdZSTFneTBiR1dRNUNzTDBVOHciLCJuYW1lIjoixJDDtG5nIE5ndXnhu4VuIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FBVFhBSnhiNUtJNEFKN19kdDFFQVZmYmU3SnhKTFZ3ZkFSWEh0dGN5dmJ0PXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6IsSQw7RuZyIsImZhbWlseV9uYW1lIjoiTmd1eeG7hW4iLCJsb2NhbGUiOiJ2aSIsImlhdCI6MTY0NzkyMTExMSwiZXhwIjoxNjQ3OTI0NzExfQ.ZDNZSrfVTYFtyoNNjj6DCsglmVUUCs5Gqd8ZpB0blvmqapBpfLMMjZ6VExoA8ZVZGUduSDyxXR34eemehcjx1xn1Ctu-J82E6Dxg6VZlg2e-1noRoA1dN8W1fiJUMxpNoPpZJ7TcqDvk_jXfQrUNEIBj0RneqWGgD2PTMCiwO9q4dr9Z4mrjtFUW3faTuIqCL9CyIm_10ReCdWSwp5Z6vC-EvEhsvDoQH15QnyegAX87RjCa3zkGQIw_nEhdjzCrosPDrQzpOZ6Y3lndVJ-YVruXSNimAvl_uBHuAXim07yPUrTnSHorVVnDFdNi2ZTO1ytGagZUMnwP0jn9Rie3KA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/auth/login/google",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login",
+						"google"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login with Facebook",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"accessToken\": \"EAAEGsZCFwxbkBAC7H9AgDIxAbto7hsTQQ5piZCJBChZAJqfcQjD1HBodCtBuh5GftHZBd5EZCQT2TSgp6PK03YtRE8llmP9oFBBd5JK3DQAhysGgk6qOZABZBf4JYlx07dZAOMRgZAeYOWTWC591bZCKhWdcznq2wYO6LN14sQPWmozCQZBTKXVRVm73kfiGLwuw2P5hXlkLGJfrHSVIzjM5Dx7kluM3HaeAm6PWuGOA31vX933P4foinAq\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/api/auth/login/facebook",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login",
+						"facebook"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get seller",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/seller/49",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"seller",
+						"49"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDksImlhdCI6MTY1MDgwMDA4MiwiZXhwIjoxNjUwODg2NDgyfQ.QUXj9Gh6c5y82_K36SrxP21GDBMJfma1tTCEg1naeKg",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
 }

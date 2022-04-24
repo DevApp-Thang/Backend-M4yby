@@ -31,6 +31,7 @@ module.exports = {
       timeCallFrom,
       timeCallTo,
       specifications,
+      address,
     } = req.body;
     const AccountId = req.user.id;
 
@@ -73,6 +74,7 @@ module.exports = {
           timeCallFrom,
           timeCallTo,
           specifications,
+          address,
         },
         {
           transaction,
@@ -112,7 +114,7 @@ module.exports = {
 
       if (images && !fileSuccess) {
         await transaction.rollback();
-        return next(new ErrorResponse(`Error when upload image.`, 400));
+        return next(new ErrorResponse(`Lỗi tải ảnh.`, 400));
       }
 
       if (fileSuccess) {
@@ -142,6 +144,7 @@ module.exports = {
       ProductId,
       isSold,
       specifications,
+      address,
     } = req.body;
     const AccountId = req.user.id;
     const { itemID } = req.params;
@@ -149,13 +152,13 @@ module.exports = {
     const item = await Item.findByPk(itemID);
 
     if (!item) {
-      return next(
-        new ErrorResponse(`Cannot find item with id ${itemID}.`, 404)
-      );
+      return next(new ErrorResponse(`Sản phẩm không tồn tại.`, 404));
     }
 
     if (AccountId !== item.AccountId) {
-      return next(new ErrorResponse(`You do not have access.`, 401));
+      return next(
+        new ErrorResponse(`Bạn không có quyền để thực hiện hành động này.`, 401)
+      );
     }
 
     const { LocationId, id, code } = item;
@@ -200,7 +203,7 @@ module.exports = {
 
       if (req.files?.images && !fileSuccess) {
         await transaction.rollback();
-        return next(new ErrorResponse(`Error when upload image.`, 400));
+        return next(new ErrorResponse(`Lỗi tải ảnh.`, 400));
       }
 
       const itemImages = await ItemImage.findAll({
@@ -227,6 +230,7 @@ module.exports = {
             ProductId,
             isSold,
             specifications,
+            address,
           },
           {
             transaction,
@@ -240,6 +244,7 @@ module.exports = {
             price,
             ProductId,
             specifications,
+            address,
           },
           {
             transaction,
@@ -268,14 +273,17 @@ module.exports = {
       const item = await Item.findByPk(itemID);
 
       if (!item) {
-        return next(
-          new ErrorResponse(`Cannot find item with ID ${itemID}.`, 404)
-        );
+        return next(new ErrorResponse(`Sản phẩm không tồn tại.`, 404));
       }
       const { LocationId, id, AccountId, code } = item;
 
       if (AccountId !== req.user.id) {
-        return next(new ErrorResponse(`You do not have access.`, 401));
+        return next(
+          new ErrorResponse(
+            `Bạn không có quyền để thực hiện hành động này.`,
+            401
+          )
+        );
       }
 
       await item.destroy({ transaction });
@@ -517,7 +525,7 @@ module.exports = {
     const { itemID } = req.params;
 
     if (isNaN(Number(itemID))) {
-      return next(new ErrorResponse("Id must be a number", 400));
+      return next(new ErrorResponse("ID sản phẩm phải là số.", 400));
     }
 
     const item = await Item.findOne({
@@ -536,7 +544,7 @@ module.exports = {
     });
 
     if (!item) {
-      return next(new ErrorResponse(`Cannot find item with id ${itemID}`, 404));
+      return next(new ErrorResponse(`Sản phẩm không tồn tại.`, 404));
     }
 
     const favorite = await Favorite.findOne({
@@ -585,14 +593,12 @@ module.exports = {
     });
 
     if (!item) {
-      return next(
-        new ErrorResponse(`Cannot find item with id ${itemID}.`, 404)
-      );
+      return next(new ErrorResponse(`Sản phẩm không tồn tại.`, 404));
     }
 
     if (item.AccountId !== req.user.id) {
       return next(
-        new ErrorResponse(`You don't have item with id ${itemID}.`, 401)
+        new ErrorResponse(`Bạn không có quyền để thực hiện hành động này.`, 401)
       );
     }
 

@@ -13,7 +13,7 @@ exports.protect = asyncHandle(async (req, res, next) => {
   }
 
   if (!token) {
-    return next(new ErrorResponse(`Not authorize to access this route`, 401));
+    return next(new ErrorResponse(`Không có quyền truy cập.`, 401));
   }
 
   try {
@@ -22,13 +22,13 @@ exports.protect = asyncHandle(async (req, res, next) => {
     const user = await Account.findByPk(decoded.id);
 
     if (!user) {
-      return next(new ErrorResponse(`Not authorize to access this route`, 401));
+      return next(new ErrorResponse(`Không có quyền truy cập.`, 401));
     }
 
     req.user = user;
 
     next();
   } catch (err) {
-    return next(new ErrorResponse(`Not authorize to access this route`, 401));
+    return next(new ErrorResponse(`Không có quyền truy cập.`, 401));
   }
 });

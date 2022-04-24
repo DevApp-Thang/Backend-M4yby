@@ -42,7 +42,7 @@ module.exports = {
     const thumbnail = req.files?.thumbnail;
 
     if (!thumbnail) {
-      return next(new ErrorResponse("File missing", 400));
+      return next(new ErrorResponse("Không tìm thấy file.", 400));
     }
 
     let product = await Product.create({

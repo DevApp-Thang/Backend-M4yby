@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notNull: {
-            msg: "Please enter keyword.",
+            msg: "Từ khóa là bắt buộc.",
           },
         },
       },

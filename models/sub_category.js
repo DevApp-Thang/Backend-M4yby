@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notNull: {
-            msg: "Please enter sub category name.",
+            msg: "Tên danh mục là bắt buộc.",
           },
         },
       },

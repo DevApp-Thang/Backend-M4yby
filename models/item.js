@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notNull: {
-            msg: "Please enter item name.",
+            msg: "Tên sản phẩm là bắt buộc.",
           },
         },
       },
@@ -55,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notNull: {
-            msg: "Please enter item code.",
+            msg: "Code sản phẩm là bắt buộc.",
           },
         },
       },
@@ -64,7 +64,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notNull: {
-            msg: "Please enter item code.",
+            msg: "Mô tả sản phẩm là bắt buộc.",
           },
         },
       },
@@ -73,10 +73,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notNull: {
-            msg: "Please enter item price.",
+            msg: "Giá sản phẩm là bắt buộc.",
           },
           isInt: {
-            msg: "Please enter the number of price.",
+            msg: "Giá sản phẩm phải là số.",
           },
         },
       },
@@ -100,7 +100,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           len: {
             args: [1, 5],
-            msg: "Please enter rating from 1 to 5.",
+            msg: "Đánh giá phải từ 1 đến 5.",
           },
         },
       },
@@ -111,7 +111,7 @@ module.exports = (sequelize, DataTypes) => {
             try {
               JSON.parse(value);
             } catch (error) {
-              throw new Error("Specifications must be a JSON");
+              throw new Error("Thông số sản phẩm phải là JSON");
             }
           },
         },
@@ -122,6 +122,15 @@ module.exports = (sequelize, DataTypes) => {
       view: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
+      },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "Địa chỉ là bắt buộc.",
+          },
+        },
       },
     },
     {

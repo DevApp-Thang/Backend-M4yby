@@ -59,9 +59,7 @@ module.exports = {
     });
 
     if (!item) {
-      return next(
-        new ErrorResponse(`Can not find item with id ${itemId}`, 404)
-      );
+      return next(new ErrorResponse(`Không tìm thấy sản phẩm này.`, 404));
     }
 
     const oldFavorite = await Favorite.findOne({
@@ -73,7 +71,7 @@ module.exports = {
 
     if (oldFavorite) {
       return next(
-        new ErrorResponse(`The item already exists in the list favotite`, 400)
+        new ErrorResponse(`Sản phẩm đã có trong danh sách yêu thích.`, 400)
       );
     }
 
@@ -98,12 +96,12 @@ module.exports = {
     });
 
     if (!favorite) {
-      return next(new ErrorResponse(`Can not find item with id ${id}`, 404));
+      return next(new ErrorResponse(`Không tìm thấy sản phẩm này`, 404));
     }
 
     if (favorite.AccountId !== req.user.id) {
       return next(
-        new ErrorResponse(`You are not allowed to perform this action`, 401)
+        new ErrorResponse(`Bạn không có quyền để thực hiện hành động này.`, 401)
       );
     }
 

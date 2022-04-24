@@ -7,15 +7,13 @@ module.exports = {
     const { followId } = req.body;
 
     if (followId === req.user.id) {
-      return next(new ErrorResponse("You can not follow yourself", 400));
+      return next(new ErrorResponse("Bạn không thể theo dõi chính mình.", 400));
     }
 
     const followAccount = await Account.findByPk(followId);
 
     if (!followAccount) {
-      return next(
-        new ErrorResponse(`Can not find user with id ${followId}`, 404)
-      );
+      return next(new ErrorResponse(`Tài khoản không tồn tại.`, 404));
     }
 
     const oldFollow = await Follow.findOne({
@@ -23,7 +21,9 @@ module.exports = {
     });
 
     if (oldFollow) {
-      return next(new ErrorResponse("Already follow this user", 400));
+      return next(
+        new ErrorResponse("Bạn đã theo dõi tài khoản này trước đó.", 400)
+      );
     }
 
     const follow = await Follow.create({
@@ -47,9 +47,7 @@ module.exports = {
     });
 
     if (!follow) {
-      return next(
-        new ErrorResponse(`You have not followed user with id ${id}`, 404)
-      );
+      return next(new ErrorResponse(`Bạn chưa theo dõi tài khoản này.`, 404));
     }
 
     await follow.destroy();

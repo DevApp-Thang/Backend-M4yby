@@ -36,18 +36,18 @@ module.exports = {
     const { id } = req.params;
 
     if (isNaN(Number(id))) {
-      return next(new ErrorResponse("Id must be a number", 400));
+      return next(new ErrorResponse("ID sản phẩm phải là số.", 400));
     }
 
     const keyword = await SearchHistory.findByPk(id);
 
     if (!keyword) {
-      return next(new ErrorResponse(`Cannot find keyword with id ${id}`, 404));
+      return next(new ErrorResponse(`Từ khóa này không tồn tại.`, 404));
     }
 
     if (keyword.AccountId !== req.user.id) {
       return next(
-        new ErrorResponse(`You are not allowed to perform this action`, 401)
+        new ErrorResponse(`Bạn không có quyền để thực hiện hành động này.`, 401)
       );
     }
 

@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notNull: {
-            msg: "Please enter specification name.",
+            msg: "Giá trị thông số là bắt buộc.",
           },
         },
       },

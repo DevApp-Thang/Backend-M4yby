@@ -10,9 +10,7 @@ module.exports = {
       },
     });
     if (!item) {
-      return next(
-        new ErrorResponse(`Can't find item with id ${req.body.itemId}`, 404)
-      );
+      return next(new ErrorResponse(`Sản phẩm không tồn tại.`, 404));
     }
 
     const rate = await Rate.findOne({
@@ -24,10 +22,15 @@ module.exports = {
 
     if (!rate) {
       if (item.AccountId === req.user.id) {
-        return next(new ErrorResponse(`You cannot rate this product`, 400));
+        return next(
+          new ErrorResponse(
+            `Bạn không thể đánh giá sản phẩm của chính mình.`,
+            400
+          )
+        );
       }
       return next(
-        new ErrorResponse(`You have already rated this product`, 400)
+        new ErrorResponse(`Bạn đã đánh giá sản phẩm này trước đó.`, 400)
       );
     } else {
       // if (item.AccountId === req.user.id) {

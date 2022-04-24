@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           len: {
             args: [1, 5],
-            msg: "Please enter rating from 1 to 5.",
+            msg: "Đánh giá phải từ 1 đến 5.",
           },
         },
       },

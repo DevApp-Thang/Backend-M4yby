@@ -89,7 +89,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notNull: {
-            msg: "Please enter your name.",
+            msg: "Họ tên là bắt buộc.",
           },
         },
       },
@@ -99,7 +99,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           len: {
             args: [10, 11],
-            msg: "Enter wrong length of phone.",
+            msg: "Số điện thoại không hợp lệ.",
           },
         },
       },
@@ -109,7 +109,7 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
         validate: {
           isEmail: {
-            msg: "Enter wrong email format.",
+            msg: "Email không hợp lệ.",
           },
         },
       },
@@ -118,7 +118,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           min: {
             args: 6,
-            msg: "Your password enter shorter than 6 character.",
+            msg: "Mật khẩu phải dài hơn 6 kí tự.",
           },
         },
       },
@@ -127,7 +127,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           isIn: {
             args: [["male", "female", "other"]],
-            msg: "Please enter your gender.",
+            msg: "Giới tính là bắt buộc.",
           },
         },
       },
@@ -137,11 +137,11 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: "local",
         validate: {
           notNull: {
-            msg: "Please enter your type account.",
+            msg: "Loại tài khoản là bắt buộc.",
           },
           isIn: {
             args: [["local", "google", "facebook"]],
-            msg: "Please enter your tyoe account.",
+            msg: "Loại tài khoản là bắt buộc.",
           },
         },
       },
@@ -153,7 +153,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           len: {
             args: [1, 5],
-            msg: "Please enter rating from 1 to 5.",
+            msg: "Đánh giá phải từ 1 đến 5.",
           },
         },
       },

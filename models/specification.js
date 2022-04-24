@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notNull: {
-            msg: "Please enter specification name.",
+            msg: "Tên thông số là bắt buộc.",
           },
         },
       },
@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           isIn: {
             args: [["custom", "optional", "require"]],
-            msg: "This type is not supported",
+            msg: "Không hỗ trợ loại thông số này.",
           },
         },
       },

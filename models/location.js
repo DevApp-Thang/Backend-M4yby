@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           isNumeric: {
-            msg: "Please enter a number for long.",
+            msg: "Kinh độ là bắt buộc.",
           },
         },
       },
@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           isNumeric: {
-            msg: "Please enter a number for lat.",
+            msg: "Vĩ độ là bắt buộc.",
           },
         },
       },

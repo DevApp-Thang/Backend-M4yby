@@ -7,15 +7,13 @@ module.exports = {
     const { content, reportableId } = req.body;
 
     if (req.user.id === reportableId) {
-      return next(new ErrorResponse("You can not report yourself", 400));
+      return next(new ErrorResponse("Bạn không thể báo cáo chính mình.", 400));
     }
 
     const reportableAccount = await Account.findByPk(reportableId);
 
     if (!reportableAccount) {
-      return next(
-        new ErrorResponse(`Can not find user with id ${reportableId}`)
-      );
+      return next(new ErrorResponse(`Tài khoản không tồn tại.`));
     }
 
     const report = await Report.create({

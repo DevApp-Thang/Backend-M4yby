@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notNull: {
-            msg: "Please enter source image.",
+            msg: "Nguồn ảnh là bắt buộc.",
           },
         },
       },

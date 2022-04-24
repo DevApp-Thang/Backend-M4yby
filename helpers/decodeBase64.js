@@ -9,7 +9,7 @@ exports.decodeBase64 = (base64str, filename) => {
     const matches = base64str.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
 
     if (matches.length !== 3) {
-      throw new ErrorResponse("Base64 is invalid", 403);
+      throw new ErrorResponse("Base64 không hợp lệ", 403);
     }
 
     const dataImage = {};
@@ -29,6 +29,6 @@ exports.decodeBase64 = (base64str, filename) => {
     );
     return extension;
   } catch (error) {
-    throw new ErrorResponse(`Faild to upload image: ${error.message}`, 403);
+    throw new ErrorResponse(`Lỗi tải ảnh: ${error.message}`, 403);
   }
 };

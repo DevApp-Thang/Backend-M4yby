@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notNull: {
-            msg: "Please enter product name.",
+            msg: "Tên sản phẩm là bắt buộc.",
           },
         },
       },

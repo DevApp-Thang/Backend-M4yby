@@ -36,15 +36,15 @@ module.exports = {
     const { name, phone, email, password, gender } = req.body;
 
     if (!password) {
-      return next(new ErrorResponse("Please enter your password.", 400));
+      return next(new ErrorResponse("Mật khẩu là bắt buộc.", 400));
     }
 
     if (!gender) {
-      return next(new ErrorResponse("Please enter your gender.", 400));
+      return next(new ErrorResponse("Giới tính là bắt buộc.", 400));
     }
 
     if (!email) {
-      return next(new ErrorResponse("Please enter your email.", 400));
+      return next(new ErrorResponse("Email là bắt buộc.", 400));
     }
 
     const account = await Account.create({
@@ -66,15 +66,12 @@ module.exports = {
 
     if (!phone && !email) {
       return next(
-        new ErrorResponse(
-          "Please enter your email address or phone number",
-          400
-        )
+        new ErrorResponse("Nhập email hoặc số điện thoại của bạn.", 400)
       );
     }
 
     if (!password) {
-      return next(new ErrorResponse("Please enter your password", 400));
+      return next(new ErrorResponse("Mật khẩu là bắt buộc", 400));
     }
 
     if (!phone) {
@@ -92,13 +89,13 @@ module.exports = {
     });
 
     if (!account) {
-      return next(new ErrorResponse(`Cannot find account`, 400));
+      return next(new ErrorResponse(`Tài khoản không tồn tại.`, 400));
     }
 
     const isMatch = await account.matchPassword(password);
 
     if (!isMatch) {
-      return next(new ErrorResponse(`Wrong password`, 401));
+      return next(new ErrorResponse(`Sai mật khẩu.`, 401));
     }
 
     sendTokenResponse(account, 200, res);
@@ -116,7 +113,7 @@ module.exports = {
       const account = await Account.findByPk(decoded.id);
 
       if (!account) {
-        return next(new ErrorResponse("Unauthorized", 401));
+        return next(new ErrorResponse("Không được phép.", 401));
       }
 
       const token = account.getSignedJwtToken();
@@ -129,7 +126,7 @@ module.exports = {
     } else {
       return res.status(401).json({
         success: false,
-        data: "RefreshToken is invalid.",
+        data: "Token không hợp lệ.",
       });
     }
   }),
@@ -175,11 +172,11 @@ module.exports = {
     const { currentPassword, newPassword } = req.body;
 
     if (!currentPassword) {
-      return next(new ErrorResponse("Please enter your password.", 301));
+      return next(new ErrorResponse("Mật khẩu là bắt buộc.", 301));
     }
 
     if (!newPassword) {
-      return next(new ErrorResponse("Please enter new password", 301));
+      return next(new ErrorResponse("Mật khẩu mới là bắt buộc.", 301));
     }
 
     const currentUser = await Account.findByPk(req.user.id);
@@ -187,7 +184,7 @@ module.exports = {
     const isMatch = await currentUser.matchPassword(currentPassword);
 
     if (!isMatch) {
-      return next(new ErrorResponse(`Wrong password`, 401));
+      return next(new ErrorResponse(`Sai mật khẩu.`, 401));
     }
 
     const user = await currentUser.update({
@@ -204,11 +201,11 @@ module.exports = {
     const { password } = req.body;
 
     if (!otpCode) {
-      return next(new ErrorResponse(`ResetToken is invalid.`, 400));
+      return next(new ErrorResponse(`Token không hợp lệ.`, 400));
     }
 
     if (!password) {
-      return next(new ErrorResponse(`Password is invalid.`, 400));
+      return next(new ErrorResponse(`Mật khẩu không hợp lệ.`, 400));
     }
 
     const user = await Account.findOne({
@@ -221,7 +218,7 @@ module.exports = {
     });
 
     if (!user) {
-      return next(new ErrorResponse(`Wrong ResetToken.`, 400));
+      return next(new ErrorResponse(`Token không hợp lệ.`, 400));
     }
 
     const newUser = await user.update({
@@ -236,7 +233,7 @@ module.exports = {
     const { email } = req.body;
 
     if (!email) {
-      return next(new ErrorResponse("Email is invalid", 400));
+      return next(new ErrorResponse("Email không hợp lệ.", 400));
     }
 
     const user = await Account.findOne({
@@ -246,9 +243,7 @@ module.exports = {
     });
 
     if (!user) {
-      return next(
-        new ErrorResponse(`There is no account with email ${email}`, 400)
-      );
+      return next(new ErrorResponse(`Tài khoản không tồn tại.`, 400));
     }
 
     const { otpCode, otpCodeExpired } = getResetPasswordToken();
@@ -263,13 +258,13 @@ module.exports = {
     try {
       await sendEmail({
         email: email,
-        subejct: "Forgot password",
+        subejct: "Quên mật khẩu",
         message,
       });
 
       return res.status(200).json({
         success: true,
-        data: "Email sent",
+        data: "Gửi mail thành công.",
       });
     } catch (err) {
       console.log(err.message);
@@ -278,7 +273,7 @@ module.exports = {
         otpCode: null,
         otpCodeExpired: null,
       });
-      return next(new ErrorResponse(`Email coult not be sent`, 500));
+      return next(new ErrorResponse(`Gửi mail thất bại.`, 500));
     }
   }),
   validateCode: asyncHandle(async (req, res, next) => {
@@ -294,19 +289,19 @@ module.exports = {
     });
 
     if (!user) {
-      return next(new ErrorResponse(`Wrong OTP.`, 400));
+      return next(new ErrorResponse(`Sai OTP.`, 400));
     }
 
     return res.status(200).json({
       success: true,
-      data: "Success",
+      data: "Thành công",
     });
   }),
   uploadAvatar: asyncHandle(async (req, res, next) => {
     const avatar = req.files?.avatar;
 
     if (!avatar) {
-      return next(new ErrorResponse("File missing", 400));
+      return next(new ErrorResponse("Không tìm thấy file.", 400));
     }
 
     const currentUser = await Account.findByPk(req.user.id);
@@ -357,7 +352,7 @@ module.exports = {
     );
 
     if (!profile) {
-      return next(new ErrorResponse("not found", 404));
+      return next(new ErrorResponse("Tài khoản không tồn tại.", 404));
     }
 
     const { email, id: subId, name, picture } = profile;

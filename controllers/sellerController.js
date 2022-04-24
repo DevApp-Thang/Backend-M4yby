@@ -26,9 +26,7 @@ module.exports = {
     };
 
     if (!seller) {
-      return next(
-        new ErrorResponse(`Not found seller with id ${sellerId}`, 404)
-      );
+      return next(new ErrorResponse(`Không tìm thấy người bán.`, 404));
     }
 
     res.status(200).json({ success: true, data });
