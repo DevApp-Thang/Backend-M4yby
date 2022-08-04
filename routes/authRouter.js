@@ -12,6 +12,7 @@ const {
   uploadAvatar,
   loginGoogle,
   loginFacebook,
+  logout,
 } = require("../controllers/authController");
 const { protect } = require("../middlewares/auth");
 
@@ -21,6 +22,7 @@ router.post("/register", register);
 router.post("/login/google", loginGoogle);
 router.post("/login/facebook", loginFacebook);
 router.post("/login", login);
+router.post("/logout", protect, logout);
 router.post("/token", sendToken);
 router.get("/me", protect, getMe);
 router.put("/me/updateDetails", protect, updateDetails);

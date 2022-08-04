@@ -115,6 +115,34 @@ module.exports = {
     sendTokenResponse(account, 200, res);
   }),
 
+  logout: asyncHandle(async (req, res, next) => {
+    const { tokenDevice } = req.body;
+
+    if (!tokenDevice) {
+      return next(new ErrorResponse("Token thiết bị là bắt buộc", 400));
+    }
+
+    const account = await Account.findOne({
+      where: {
+        id: req.user.id,
+      },
+    });
+
+    if (account?.tokenDevices?.length) {
+      const array = account.tokenDevices.split(",");
+      const index = array.indexOf(tokenDevice);
+      if (index > -1) {
+        array.splice(index, 1);
+        account.tokenDevices = array.join(",");
+        await account.save();
+      }
+    }
+
+    return res.status(200).json({
+      success: true,
+    });
+  }),
+
   sendToken: asyncHandle(async (req, res, next) => {
     const { refreshToken } = req.body;
 
