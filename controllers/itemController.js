@@ -604,8 +604,16 @@ module.exports = {
 
     const like = await Favorite.count({ where: { ItemId: itemID } });
 
+    const follow = await Follow.findOne({
+      where: { SelfId: item.Account.id, FollowId: req.user.id },
+    });
+
     const dataResponse = {
       ...item.dataValues,
+      Account: {
+        ...item.dataValues.Account.dataValues,
+        isFollow: !follow ? false : true,
+      },
       specifications: item.specifications,
       isFavorite,
       like,
