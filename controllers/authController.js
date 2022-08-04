@@ -60,7 +60,7 @@ module.exports = {
   }),
 
   login: asyncHandle(async (req, res, next) => {
-    const { phone, email, password } = req.body;
+    const { phone, email, password, tokenDevice } = req.body;
 
     let query = { phone, email };
 
@@ -72,6 +72,10 @@ module.exports = {
 
     if (!password) {
       return next(new ErrorResponse("Mật khẩu là bắt buộc", 400));
+    }
+
+    if (!tokenDevice) {
+      return next(new ErrorResponse("Token thiết bị là bắt buộc", 400));
     }
 
     if (!phone) {
@@ -97,6 +101,16 @@ module.exports = {
     if (!isMatch) {
       return next(new ErrorResponse(`Sai mật khẩu.`, 401));
     }
+
+    let tokenDevices = account.tokenDevices?.length ? account.tokenDevices : "";
+    tokenDevices = tokenDevices.split(",");
+    const findToken = tokenDevices.find((token) => token === tokenDevice);
+    if (!findToken) tokenDevices.push(tokenDevice);
+    tokenDevices = tokenDevices.filter(
+      (token) => token !== null && token !== undefined && token !== ""
+    );
+    account.tokenDevices = tokenDevices.join(",");
+    await account.save();
 
     sendTokenResponse(account, 200, res);
   }),
@@ -298,7 +312,7 @@ module.exports = {
     });
   }),
   uploadAvatar: asyncHandle(async (req, res, next) => {
-    const avatar = req.files?.avatar;
+    const avatar = req.files["avatar"];
 
     if (!avatar) {
       return next(new ErrorResponse("Không tìm thấy file.", 400));
@@ -317,7 +331,7 @@ module.exports = {
   }),
 
   loginGoogle: asyncHandle(async (req, res, next) => {
-    const { idToken } = req.body;
+    const { idToken, tokenDevice } = req.body;
 
     const { data: profile } = await axios.get(
       `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${idToken}`
@@ -327,7 +341,22 @@ module.exports = {
       where: { subId: profile.sub, type: "google" },
     });
 
+    if (!tokenDevice) {
+      return next(new ErrorResponse("Token thiết bị là bắt buộc", 400));
+    }
+
     if (oldUser) {
+      let tokenDevices = oldUser.tokenDevices?.length
+        ? oldUser.tokenDevices
+        : "";
+      tokenDevices = tokenDevices.split(",");
+      const findToken = tokenDevices.find((token) => token === tokenDevice);
+      if (!findToken) tokenDevices.push(tokenDevice);
+      tokenDevices = tokenDevices.filter(
+        (token) => token !== null && token !== undefined && token !== ""
+      );
+      oldUser.tokenDevices = tokenDevices.join(",");
+      await oldUser.save();
       return sendTokenResponse(oldUser, 200, res);
     }
 
@@ -341,11 +370,21 @@ module.exports = {
       type: "google",
     });
 
+    let tokenDevices = account.tokenDevices?.length ? account.tokenDevices : "";
+    tokenDevices = tokenDevices.split(",");
+    const findToken = tokenDevices.find((token) => token === tokenDevice);
+    if (!findToken) tokenDevices.push(tokenDevice);
+    tokenDevices = tokenDevices.filter(
+      (token) => token !== null && token !== undefined && token !== ""
+    );
+    account.tokenDevices = tokenDevices.join(",");
+    await account.save();
+
     return sendTokenResponse(account, 200, res);
   }),
 
   loginFacebook: asyncHandle(async (req, res, next) => {
-    const { accessToken } = req.body;
+    const { accessToken, tokenDevice } = req.body;
 
     const { data: profile } = await axios.get(
       `https://graph.facebook.com/v3.1/me?fields=id,name,email,gender,location,picture.type(large)&access_token=${accessToken}`
@@ -353,6 +392,10 @@ module.exports = {
 
     if (!profile) {
       return next(new ErrorResponse("Tài khoản không tồn tại.", 404));
+    }
+
+    if (!tokenDevice) {
+      return next(new ErrorResponse("Token thiết bị là bắt buộc", 400));
     }
 
     const { email, id: subId, name, picture } = profile;
@@ -370,7 +413,7 @@ module.exports = {
       });
     }
 
-    if (picture?.data?.url) {
+    if (picture["data"]["url"]) {
       const pictureUrl = picture.data.url;
       const filename = `account-${user.id}.png`;
 
@@ -392,6 +435,15 @@ module.exports = {
       });
 
       user.avatar = imageUrl;
+
+      let tokenDevices = user.tokenDevices?.length ? user.tokenDevices : "";
+      tokenDevices = tokenDevices.split(",");
+      const findToken = tokenDevices.find((token) => token === tokenDevice);
+      if (!findToken) tokenDevices.push(tokenDevice);
+      tokenDevices = tokenDevices.filter(
+        (token) => token !== null && token !== undefined && token !== ""
+      );
+      user.tokenDevices = tokenDevices.join(",");
       await user.save();
     }
 

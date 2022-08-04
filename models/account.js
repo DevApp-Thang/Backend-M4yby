@@ -159,6 +159,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       avatar: DataTypes.STRING,
       subId: DataTypes.STRING,
+      tokenDevices: DataTypes.TEXT,
     },
     {
       scopes: {

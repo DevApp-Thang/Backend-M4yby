@@ -12,13 +12,16 @@ const {
   Account,
   Product,
   Favorite,
+  Follow,
 } = require("../models");
 const ErrorResponse = require("../helpers/ErrorResponse");
 const random = require("../helpers/random");
+const EventEmitter = require("events");
+const { pushNotification } = require("../helpers/firebase");
 
 module.exports = {
   createItem: asyncHandle(async (req, res, next) => {
-    const { images } = req.files;
+    const images = req?.files?.images;
 
     const {
       lng,
@@ -34,6 +37,33 @@ module.exports = {
       address,
     } = req.body;
     const AccountId = req.user.id;
+
+    const followers = await Follow.findAll({
+      where: {
+        selfId: req.user.id,
+      },
+    });
+
+    const followIds = followers.map((follower) => follower.FollowId);
+
+    const users = await Account.findAll({
+      where: {
+        id: followIds,
+      },
+    });
+
+    const message = {
+      notification: {
+        title: `${req.user.name} đã thêm 1 sản phẩm mới`,
+        body: `${req.user.name} đã thêm 1 sản phẩm mới`,
+      },
+    };
+
+    const tokenDevices = users
+      .map((user) => user.tokenDevices)
+      .join(",")
+      .split(",")
+      .filter((item) => item !== "");
 
     let status = false;
     let code;
@@ -131,6 +161,12 @@ module.exports = {
     } catch (err) {
       await transaction.rollback();
       return next(new ErrorResponse(err.message, 400));
+    } finally {
+      const ee = new EventEmitter();
+      ee.on("create-item", function (message) {
+        pushNotification(message, tokenDevices);
+      });
+      ee.emit("create-item", message);
     }
   }),
 
@@ -171,7 +207,7 @@ module.exports = {
 
       const fileSuccess = [];
 
-      if (req.files?.images) {
+      if (req.files["images"]) {
         const { images } = req.files;
         for (let index = 0; index < images.length; index++) {
           const file = images[index];
@@ -201,7 +237,7 @@ module.exports = {
         }
       }
 
-      if (req.files?.images && !fileSuccess) {
+      if (req.files["images"] && !fileSuccess) {
         await transaction.rollback();
         return next(new ErrorResponse(`Lỗi tải ảnh.`, 400));
       }
